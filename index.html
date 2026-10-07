@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="tprpg-build" content="2610072205">
+<meta name="tprpg-build" content="2610072220">
 <title>旅遊星球RPG</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,6 +43,7 @@ button{font-family:var(--f-ui);touch-action:manipulation}
 #pad{position:absolute;width:144px;height:144px;margin:-72px 0 0 -72px;border-radius:50%;border:3px solid rgba(251,241,218,.75);background:rgba(251,241,218,.14);pointer-events:none;z-index:4}
 #pad::before{content:"";position:absolute;left:50%;top:50%;width:70px;height:70px;margin:-35px 0 0 -35px;border-radius:50%;border:2px dashed rgba(251,241,218,.6);box-sizing:border-box}
 #pad.run{border-color:rgba(255,222,130,.95);background:rgba(255,206,100,.18)}#pad.run #knob{background:radial-gradient(circle at 38% 32%,#fffaf0,#ffd56a)}
+#pad.tired{border-color:rgba(232,96,80,.95);background:rgba(220,80,60,.16)}#pad.tired #knob{background:radial-gradient(circle at 38% 32%,#fff0ec,#e8806a)}
 #pad.spr{border-color:rgba(255,186,84,.95);background:rgba(255,160,50,.22)}#pad.spr #knob{background:radial-gradient(circle at 38% 32%,#fff3d6,#f0a43a)}
 #knob{position:absolute;left:50%;top:50%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;background:radial-gradient(circle at 38% 32%,#ffffff,var(--parch2));box-shadow:0 3px 8px var(--shade)}
 #bubs{position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden}
@@ -143,10 +144,10 @@ button{font-family:var(--f-ui);touch-action:manipulation}
  <div id="setw" hidden><div class="card"><div class="shead"><div id="setT">設定</div><button id="setX" class="chip" type="button">關閉</button></div>
   <div class="srow"><span class="sl">小地圖</span><div class="sctl"><button id="sMiniOn" class="chip seg" type="button">顯示</button><button id="sMiniOff" class="chip seg" type="button">不顯示</button></div></div>
   <div class="srow"><span class="sl">控制杆</span><div class="sctl"><button id="sPadOn" class="chip seg" type="button">顯示</button><button id="sPadOff" class="chip seg" type="button">不顯示</button></div></div>
-  <div id="howto"><div class="hT">操作說明</div><dl><dt>手機</dt><dd>單指在畫面任何位置拖動：輕輕推（虛線圈內）＝步行，推出虛線圈＝跑步；連按兩下＝跳；連按兩下再推前＝向前跳，手指不放＝快跑（用體力，控制杆變橙色）；行走時用另一隻手指拖動，或雙指拖動＝轉動鏡頭；雙指開合＝拉近拉遠</dd>
-   <dt>電腦</dt><dd><span class="k">W A S D</span>／方向鍵＝行走（同一個鍵連按兩下＝快跑）；<span class="k">空白鍵</span>＝跳（跑步時＝向前跳）；滑鼠拖動＝轉動鏡頭；滾輪＝拉近拉遠；按住 <span class="k">Shift</span>＝慢行</dd>
+  <div id="howto"><div class="hT">操作說明</div><dl><dt>手機</dt><dd>單指在畫面任何位置拖動：輕輕推（虛線圈內）＝步行，推出虛線圈＝跑步（用體力，控制杆變金色）；連按兩下＝跳；連按兩下再推前＝向前跳；行走時用另一隻手指拖動，或雙指拖動＝轉動鏡頭；雙指開合＝拉近拉遠</dd>
+   <dt>電腦</dt><dd><span class="k">W A S D</span>／方向鍵＝跑步（用體力）；按住 <span class="k">Shift</span>＝步行；<span class="k">空白鍵</span>＝跳（跑步時＝向前跳）；滑鼠拖動＝轉動鏡頭；滾輪＝拉近拉遠</dd>
    <dt>游泳</dt><dd>走進深水便會游泳，停下時踩水；連按兩下並按住＝潛水，放手便慢慢浮上水面<span class="nw">（電腦：按住空白鍵潛水、<span class="k">Shift</span> 上浮）</span>；在碼頭向前跳可跳水；碼頭盡頭有梯，游過去便可爬上岸</dd>
-   <dt>體力</dt><dd>快跑、快速游泳和潛水會消耗體力（主角旁的綠色圓圈）；用盡時圓圈變紅，須等體力回滿才能再用</dd>
+   <dt>體力</dt><dd>跑步、快速游泳和潛水會消耗體力（主角旁的綠色圓圈）；用盡時圓圈和控制杆變紅，只能慢慢走，須等體力回滿才能再跑</dd>
    <dt>進屋</dt><dd>走進門口即可進入；在屋內走回門口的地氈即可離開</dd>
    <dt>對話</dt><dd>按一下居民（或頭上的對話氣泡）便會走過去對話；對話時按畫面＝下一句。按一下地上的物品＝撿起，按一下花＝採花<span class="nw">（電腦也可按 <span class="k">E</span>）</span></dd>
    <dt>地圖</dt><dd>左下角小地圖顯示自己的位置，按一下打開大地圖<span class="nw">（<span class="k">M</span>）</span>；可在上面選擇不顯示小地圖或控制杆</dd>
@@ -2616,8 +2617,8 @@ function updMoveY(dt, locked) {
    const fh = floatHip(); if (h2 >= fh && PL.vy > -0.05) { if (!MV.diveH || STA.ex) { MV.mode = 'swim'; if (MV.diveT > 0.8) surfaceFx(); MV.entry = ''; MV.plunge = 0; } else h2 = fh; }
    PL.y = h2 - Hh; } }
  MV.jumpQ = MV.leapQ = MV.leapLate = false;
- // 體力：快跑、快游、潛水會用；停咗 0.7 秒先回復
- let drain = 0; if (MV.mode === 'land' && MV.spr && PL.spd > 5 && !PL.air) drain = 20; else if (MV.mode === 'swim' && MV.spr && PL.spd > 3) drain = 24; else if (MV.mode === 'dive') drain = 9 + (MV.spr ? 14 : 0);
+ // 體力：跑、快游、潛水會用；停咗 0.7 秒先回復；用晒（STA.ex）要等回滿先再跑得
+ let drain = 0; if (MV.mode === 'land' && MV.spr && PL.spd > 3.5 && !PL.air) drain = 10; else if (MV.mode === 'swim' && MV.spr && PL.spd > 2.2) drain = 16; else if (MV.mode === 'dive') drain = 9 + (MV.spr ? 8 : 0);   /* 跑約 10 秒用晒、快游約 6 秒 */
  if (drain > 0 && !STA.ex) { STA.v -= drain * dt; STA.wait = 0.7; if (STA.v <= 0) { STA.v = 0; STA.ex = true; } }
  else { STA.wait -= dt; if (STA.wait <= 0) STA.v = Math.min(STA.max, STA.v + (MV.mode === 'land' ? 32 : 22) * dt); }
  if (STA.ex && STA.v >= STA.max) STA.ex = false;
@@ -3159,11 +3160,11 @@ function playerLookTarget(dt) { if (DLG.open && DLG.n) return headPos(DLG.n);
 // ---------- 輸入（原型：左邊拖動行、右邊拖動轉鏡頭、雙指縮放）----------
 // JOY：觸控搖桿。tapT／tapX／tapY：上一下「輕按」；dbl：今下係連按兩下嘅第二下；pend：等緊睇係原地跳定向前跳（最多 0.09 秒）
 const KEY = {}, JOY = { on:false, x:0, y:0, id:null, ox:0, oy:0, sprint:false, run:false, tapT:-1e9, tapX:0, tapY:0, dbl:false, pend:false, pT:0, leapDone:false }, PTR = new Map(), MCLK = { t:-1e9, x:0, y:0 }; let pinchD = 0;
-// 快跑：手機連按兩下再推（向前跳之後按住繼續快跑）；電腦同一個方向鍵連按兩下（按住）。放手就停
-const SPR = { key:false, code:'', t:0 };
-function readInput() { if (JOY.pend && performance.now() - JOY.pT > 90) { JOY.pend = false; MV.jumpQ = true; }   /* 連按兩下之後冇推：原地跳 */
+// 跑（2026-10-07 夜）：手機推出虛線圈、電腦方向鍵（唔撳 Shift）＝跑，用體力；冇力就慢慢行，等體力回滿
+function readInput() { const now = performance.now(); if (JOY.pend && now - JOY.pT > 90) { JOY.pend = false; MV.jumpQ = true; }   /* 連按兩下之後冇推：原地跳 */
+ if (TAPQ.fn && now > TAPQ.at) { const f = TAPQ.fn; TAPQ.fn = null; f(); }   /* 單擊（按居民、花、物品）：等 0.3 秒冇第二下先做，咁連按兩下跳唔會變咗去採花 */
  let x = 0, y = 0, key = false; if (KEY.KeyA || KEY.ArrowLeft) x -= 1; if (KEY.KeyD || KEY.ArrowRight) x += 1; if (KEY.KeyW || KEY.ArrowUp) y += 1; if (KEY.KeyS || KEY.ArrowDown) y -= 1;
- if (x || y) { key = true; const l = Math.hypot(x, y); x /= l; y /= l; } else if (JOY.on) { x = JOY.x; y = JOY.y; } else if (AUTO.on) { x = AUTO.x; y = AUTO.y; } if (SPR.key && !key) SPR.key = false; return { x:x, y:y, key:key, slow:!!(KEY.ShiftLeft || KEY.ShiftRight), sprint:key ? SPR.key : (JOY.on && !!JOY.sprint) }; }
+ if (x || y) { key = true; const l = Math.hypot(x, y); x /= l; y /= l; } else if (JOY.on) { x = JOY.x; y = JOY.y; } else if (AUTO.on) { x = AUTO.x; y = AUTO.y; } return { x:x, y:y, key:key, slow:!!(KEY.ShiftLeft || KEY.ShiftRight) }; }
 const AUTO = { on:false, x:0, y:0 };
 const INR = { on:false, yaw:0, a0:0 };
 function inputRef(mx, my) { if (Math.hypot(mx, my) < 0.2) { INR.on = false; return CAMS.yaw; } const a = Math.atan2(mx, my); if (!INR.on || Math.abs(angDiff(a, INR.a0)) > 0.9 || Math.abs(a) < 0.45) { INR.yaw = CAMS.yaw; INR.a0 = a; } INR.on = true; return INR.yaw; }
@@ -3173,34 +3174,34 @@ function setupInput() { const cv = $('cv'), pad = $('pad'), knob = $('knob'), R 
  // 觸控（2026-10-07 改）：單指喺畫面任何位置拖動＝行（推到盡＝跑）；連按兩下＝跳；連按兩下再推＝向前跳（按住繼續快跑）；水中連按兩下並按住＝潛水
  // 行緊時第二隻手指＝轉鏡頭；兩隻手指一齊落＝雙指轉鏡頭、開合拉近拉遠。滑鼠拖動＝轉鏡頭、連按兩下＝跳。瞄準時：按住拖動＝移動準星，放手＝拋出
  // 輕按（唔拖）：居民＝對話、地上物品＝撿起、花＝採花（太遠會自動行埋去）；傾緊偈按畫面＝下一句（暫時冇 A 掣，見 tapAt）
- const joyOff = function () { if (JOY.dbl) MV.diveH = false; JOY.on = false; JOY.sprint = false; JOY.run = false; JOY.dbl = false; JOY.pend = false; JOY.x = JOY.y = 0; pad.hidden = true; pad.classList.remove('run', 'spr'); };
+ const joyOff = function () { if (JOY.dbl) MV.diveH = false; JOY.on = false; JOY.sprint = false; JOY.run = false; JOY.dbl = false; JOY.pend = false; JOY.x = JOY.y = 0; pad.hidden = true; pad.classList.remove('run', 'spr', 'tired'); };
  cv.addEventListener('pointerdown', function (e) { e.preventDefault(); try { cv.setPointerCapture(e.pointerId); } catch (_) {} const now = performance.now(); let role = 'cam';
   if (AIM.on) { role = AIM.ptr == null && !AIM.thrown ? 'aim' : 'none'; if (role === 'aim') aimPress(e.pointerId); PTR.set(e.pointerId, { role:role, x:e.clientX, y:e.clientY, x0:e.clientX, y0:e.clientY, t0:now }); return; }
   if (DLG.open || AREA.fading) { PTR.set(e.pointerId, { role:'tap', x:e.clientX, y:e.clientY, x0:e.clientX, y0:e.clientY, t0:now }); return; }   /* 傾緊偈：唔出搖桿，放手先判斷 */
   if (e.pointerType !== 'mouse' && JOY.on) { const jp = PTR.get(JOY.id); if (jp && now - jp.t0 < 160 && Math.hypot(jp.x - jp.x0, jp.y - jp.y0) < 12) { jp.role = 'cam'; joyOff(); } }
   if (e.pointerType !== 'mouse' && !JOY.on && PTR.size === 0) { role = 'move'; JOY.on = true; JOY.id = e.pointerId; JOY.ox = e.clientX; JOY.oy = e.clientY; JOY.x = JOY.y = 0; JOY.sprint = false; JOY.run = false; JOY.leapDone = false; JOY.pend = false;
-   JOY.dbl = now - JOY.tapT < 330 && Math.hypot(e.clientX - JOY.tapX, e.clientY - JOY.tapY) < 90; JOY.tapT = -1e9;
+   JOY.dbl = now - JOY.tapT < 330 && Math.hypot(e.clientX - JOY.tapX, e.clientY - JOY.tapY) < 90; JOY.tapT = -1e9; if (JOY.dbl) TAPQ.fn = null;
    if (JOY.dbl) { if (MV.mode === 'land') { JOY.pend = true; JOY.pT = now; } else if (MV.mode === 'swim' || MV.mode === 'dive') MV.diveH = true; }   /* 陸地：等 0.09 秒睇推唔推；水中：按住＝潛水 */
    pad.classList.remove('spr'); pad.hidden = !SET.pad; pad.style.left = e.clientX + 'px'; pad.style.top = e.clientY + 'px'; knob.style.transform = ''; }
-  if (e.pointerType === 'mouse' && now - MCLK.t < 320 && Math.hypot(e.clientX - MCLK.x, e.clientY - MCLK.y) < 10) { MCLK.t = -1e9; if (MV.mode === 'land') MV.jumpQ = true; }   /* 滑鼠連按兩下＝跳 */
+  if (e.pointerType === 'mouse' && now - MCLK.t < 320 && Math.hypot(e.clientX - MCLK.x, e.clientY - MCLK.y) < 10) { MCLK.t = -1e9; TAPQ.fn = null; if (MV.mode === 'land') MV.jumpQ = true; }   /* 滑鼠連按兩下＝跳 */
   PTR.set(e.pointerId, { role:role, x:e.clientX, y:e.clientY, x0:e.clientX, y0:e.clientY, t0:now }); pinchD = 0; });
  cv.addEventListener('pointermove', function (e) { const p = PTR.get(e.pointerId); if (!p) return; e.preventDefault(); const dx = e.clientX - p.x, dy = e.clientY - p.y; p.x = e.clientX; p.y = e.clientY;
   if (p.role === 'aim') { aimMove(dx, dy); return; } if (p.role === 'none' || p.role === 'tap') return;
   if (p.role === 'move') { let ux = e.clientX - JOY.ox, uy = e.clientY - JOY.oy; const l = Math.hypot(ux, uy); if (l > R) { ux *= R / l; uy *= R / l; } JOY.x = ux / R; JOY.y = -uy / R; knob.style.transform = 'translate(' + ux + 'px,' + uy + 'px)';
-   const k = Math.min(1, l / R), rn = JOY.run ? k > 0.48 : k > 0.58; if (rn !== JOY.run) { JOY.run = rn; pad.classList.toggle('run', rn); }   /* 行／跑：有緩衝，唔會喺邊界閃 */
-   if (JOY.dbl && !JOY.leapDone && l > 14 && MV.mode === 'land') { JOY.leapDone = true; if (JOY.pend || performance.now() - JOY.pT < 400) { if (JOY.pend) MV.leapQ = true; else MV.leapLate = true; JOY.pend = false; JOY.sprint = true; pad.classList.add('spr'); } }   /* 連按兩下再推＝向前跳，按住繼續快跑 */
+   const k = Math.min(1, l / R), rn = JOY.run ? k > 0.45 : k > 0.55; if (rn !== JOY.run) { JOY.run = rn; pad.classList.toggle('run', rn); }   /* 行／跑：有緩衝，唔會喺邊界閃 */
+   if (JOY.dbl && !JOY.leapDone && l > 14 && MV.mode === 'land') { JOY.leapDone = true; if (JOY.pend || performance.now() - JOY.pT < 400) { if (JOY.pend) MV.leapQ = true; else MV.leapLate = true; JOY.pend = false; } }   /* 連按兩下再推＝向前跳（之後推出虛線圈就跑） */
    return; }
   const cams = []; PTR.forEach(function (q) { if (q.role === 'cam') cams.push(q); }); if (cams.length >= 2) { const d = Math.hypot(cams[0].x - cams[1].x, cams[0].y - cams[1].y); if (pinchD) zoom(pinchD / d); pinchD = d; camDrag(dx * 0.5, dy * 0.5); } else camDrag(dx, dy); });
  function up(e) { const p = PTR.get(e.pointerId); if (!p) return; PTR.delete(e.pointerId); pinchD = 0; const now = performance.now();
   if (p.role === 'aim') { aimRelease(e.type === 'pointerup'); return; }   /* 瞄準：放手＝拋出 */
   const tap = e.type === 'pointerup' && now - p.t0 < 260 && Math.hypot(e.clientX - p.x0, e.clientY - p.y0) < 14;
   if (p.role === 'tap') { if (tap) tapAt(e.clientX, e.clientY); return; }
-  if (p.role === 'move') { if (JOY.pend) { JOY.pend = false; MV.jumpQ = true; } if (tap && !JOY.dbl && !tapAt(e.clientX, e.clientY)) { JOY.tapT = now; JOY.tapX = e.clientX; JOY.tapY = e.clientY; } joyOff(); }   /* 輕按冇按中嘢先算連按兩下嘅第一下 */
-  else if (p.role === 'cam' && e.pointerType === 'mouse' && tap && now - p.t0 < 250 && !tapAt(e.clientX, e.clientY)) { MCLK.t = now; MCLK.x = e.clientX; MCLK.y = e.clientY; } }
+  if (p.role === 'move') { if (JOY.pend) { JOY.pend = false; MV.jumpQ = true; } if (tap && !JOY.dbl) { JOY.tapT = now; JOY.tapX = e.clientX; JOY.tapY = e.clientY; tapLater(e.clientX, e.clientY, now); } joyOff(); }   /* 輕按：可能係連按兩下嘅第一下，所以按中嘢都遲 0.3 秒先做 */
+  else if (p.role === 'cam' && e.pointerType === 'mouse' && tap && now - p.t0 < 250) { MCLK.t = now; MCLK.x = e.clientX; MCLK.y = e.clientY; tapLater(e.clientX, e.clientY, now); } }
  cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up); cv.addEventListener('lostpointercapture', up);
  cv.addEventListener('wheel', function (e) { e.preventDefault(); zoom(e.deltaY > 0 ? 1.1 : 1 / 1.1); }, { passive:false });
  addEventListener('keydown', function (e) { if (e.code === 'Tab' || e.code === 'Space' || e.code.indexOf('Arrow') === 0) e.preventDefault(); if (e.repeat) { KEY[e.code] = true; return; } KEY[e.code] = true;
-  if (/^(Key[WASD]|Arrow)/.test(e.code)) { const now = performance.now(); if (e.code === SPR.code && now - SPR.t < 320) SPR.key = true; SPR.code = e.code; SPR.t = now; } if (!$('help').hidden) { if (e.code === 'Enter' || e.code === 'Space' || e.code === 'KeyE') startGame(); return; }
+  if (!$('help').hidden) { if (e.code === 'Enter' || e.code === 'Space' || e.code === 'KeyE') startGame(); return; }
   if (AIM.on) { if (e.code === 'Space' || e.code === 'KeyE' || e.code === 'Enter') aimThrow(); else if (e.code === 'Escape') endAim(); return; }
   if (e.code === 'KeyB') { if (BAG.open) closeBag(); else openBag(); return; } if (BAG.open && e.code === 'Escape') { closeBag(); return; }
   if (e.code === 'Space') { if (MV.mode === 'land') { if (PL.spd > 2.2) MV.leapQ = true; else MV.jumpQ = true; } else MV.diveH = true; } else if ((e.code === 'ShiftLeft' || e.code === 'ShiftRight') && MV.mode !== 'land') MV.riseH = true;
@@ -3229,14 +3230,19 @@ function scr(x, y, z) { V.set(x, y, z).project(cam); return V.z < 1 ? [(V.x + 1)
 function npcAt(cx, cy) { let best = null, bd = 1e9; curNPCs().forEach(function (n) { const P = n.root.position, d = npcDist(n); if (d > 16) return; const f = scr(P.x, P.y, P.z), h = scr(P.x, P.y + n.headH, P.z); if (!f || !h) return;
   const ht = Math.max(24, f[1] - h[1]), w = Math.max(44, ht * 0.75); if (Math.abs(cx - f[0]) < w / 2 && cy > h[1] - 36 && cy < f[1] + 12 && d < bd) { bd = d; best = n; } }); return best; }   /* 連頭頂對話氣泡都算 */
 function pickAt(cx, cy) { if (AREA.id !== 'out') return -1; let best = -1, bd = 46; for (let i = 0; i < PICK.length; i++) { const P = PICK[i], q = P.m.position; if (!P.m.visible || Math.hypot(q.x - PL.x, q.z - PL.z) > 12) continue; const s = scr(q.x, q.y + 0.05, q.z); if (!s) continue; const d = Math.hypot(s[0] - cx, s[1] - cy); if (d < bd) { bd = d; best = i; } } return best; }
-function flowerAt(cx, cy) { if (AREA.id !== 'out' || !FLW.spots) return -1; let best = -1, bd = 34; for (let i = 0; i < FLW.spots.length; i++) { const p = FLW.spots[i]; if (FLW.gone[i] || Math.abs(p[0] - PL.x) > 9 || Math.abs(p[1] - PL.z) > 9) continue; const s = scr(p[0], terrH(p[0], p[1]) + 0.12, p[1]); if (!s) continue; const d = Math.hypot(s[0] - cx, s[1] - cy); if (d < bd) { bd = d; best = i; } } return best; }
-function tapAt(cx, cy) { if (AREA.fading || PL.pick || AIM.on || MV.mode === 'climb' || !$('help').hidden || BAG.open || !$('mapw').hidden || !$('setw').hidden) return false;
- if (DLG.open) { action(); return true; }   /* 傾緊偈：下一句 */
- const land = MV.mode === 'land', n = npcAt(cx, cy); if (n) { const d = npcDist(n); if (d < 2.6) startTalk(n); else if (land) goTo(function () { return [n.root.position.x, n.root.position.z]; }, 2.0, function () { startTalk(n); }); else if (d < 4) startTalk(n); else return false; return true; }
- const pi = pickAt(cx, cy); if (pi >= 0) { const P = PICK[pi], q = P.m.position, d = Math.hypot(q.x - PL.x, q.z - PL.z); if (d < 1.5 && Math.abs(q.y - PL.y - PIVK * PL.S) < 1.8) takePick(pi); else if (land) goTo(function () { return [q.x, q.z]; }, 1.0, function () { const k = PICK.indexOf(P); if (k >= 0) takePick(k); }); else return false; return true; }
- const fi = land ? flowerAt(cx, cy) : -1; if (fi >= 0) { const p = FLW.spots[fi]; if (Math.hypot(p[0] - PL.x, p[1] - PL.z) < 1.2) startPick(fi); else goTo(function () { return [p[0], p[1]]; }, 0.95, function () { if (!FLW.gone[fi]) startPick(fi); }); return true; }
- if (!land) { const L = nearLadder(), s = L && scr(L.x, L.top + 0.3, L.z); if (s && Math.hypot(s[0] - cx, s[1] - cy) < 90) { startClimb(L); return true; } }
- return false; }
+function flowerAt(cx, cy) { if (AREA.id !== 'out' || !FLW.spots) return -1; let best = -1, bd = 28; for (let i = 0; i < FLW.spots.length; i++) { const p = FLW.spots[i]; if (FLW.gone[i] || Math.abs(p[0] - PL.x) > 7 || Math.abs(p[1] - PL.z) > 7) continue; const s = scr(p[0], terrH(p[0], p[1]) + 0.12, p[1]); if (!s) continue; const d = Math.hypot(s[0] - cx, s[1] - cy); if (d < bd) { bd = d; best = i; } } return best; }
+const TAPQ = { fn:null, at:0 };
+function tapLater(cx, cy, now) { TAPQ.fn = null; if (DLG.open) { tapAt(cx, cy); return; } const fn = tapFind(cx, cy); if (fn) { TAPQ.fn = fn; TAPQ.at = now + 300; } }
+function tapAt(cx, cy) { const fn = tapFind(cx, cy); if (fn) { fn(); return true; } return false; }
+// 輕按搵目標：回傳要做嘅嘢（function）或者 null
+function tapFind(cx, cy) { if (AREA.fading || PL.pick || AIM.on || MV.mode === 'climb' || !$('help').hidden || BAG.open || !$('mapw').hidden || !$('setw').hidden) return null;
+ if (DLG.open) return action;   /* 傾緊偈：下一句 */
+ const land = MV.mode === 'land', n = npcAt(cx, cy); if (n) { const d = npcDist(n); if (d < 2.6 || (!land && d < 4)) return function () { startTalk(n); }; if (land) return function () { goTo(function () { return [n.root.position.x, n.root.position.z]; }, 2.0, function () { startTalk(n); }); }; return null; }
+ const pi = pickAt(cx, cy); if (pi >= 0) { const P = PICK[pi], q = P.m.position, d = Math.hypot(q.x - PL.x, q.z - PL.z), take = function () { const k = PICK.indexOf(P); if (k >= 0) takePick(k); };
+  if (d < 1.5 && Math.abs(q.y - PL.y - PIVK * PL.S) < 1.8) return take; if (land) return function () { goTo(function () { return [q.x, q.z]; }, 1.0, take); }; return null; }
+ const fi = land ? flowerAt(cx, cy) : -1; if (fi >= 0) { const p = FLW.spots[fi]; if (Math.hypot(p[0] - PL.x, p[1] - PL.z) < 1.2) return function () { if (!FLW.gone[fi] && !PL.pick) startPick(fi); }; return function () { goTo(function () { return [p[0], p[1]]; }, 0.95, function () { if (!FLW.gone[fi]) startPick(fi); }); }; }
+ if (!land) { const L = nearLadder(), s = L && scr(L.x, L.top + 0.3, L.z); if (s && Math.hypot(s[0] - cx, s[1] - cy) < 90) return function () { if (MV.mode === 'swim' || MV.mode === 'dive') startClimb(L); }; }
+ return null; }
 function setLine() { DLG.full = DLG.n.lines[DLG.i]; DLG.shown = 0; $('dlgT').textContent = ''; const t = DLG.full, ex = /！|!/.test(t), q = /？|\?/.test(t), dots = /……/.test(t);
  DLG.n.expr = dots ? 'think' : q ? 'surprise' : ex ? 'laugh' : 'happy'; PL.expr = q ? (DLG.i % 2 ? 'surprise' : 'think') : ex ? (DLG.i % 2 ? 'laugh' : 'happy') : 'happy';
  if (DLG.i === 0) gesture('wave'); else if (ex && DLG.i % 2 === 0) gesture('cheer'); else PL.nod = 0.4; }
@@ -3288,17 +3294,18 @@ function doorAuto() { if (AREA.fading || DLG.open || PL.spd < 0.6) return;
 // ---------- 主角移動 ----------
 function updPlayer(dt) { const inp = readInput(); let mx = inp.x, my = inp.y; const locked = DLG.open || !$('help').hidden || AREA.fading || !$('mapw').hidden || !!PL.pick || BAG.open || AIM.on, busy = MV.mode === 'climb'; if (locked || busy) { mx = 0; my = 0; } const mag = Math.min(1, Math.hypot(mx, my)); MV.inp = mag > 0.15;
  const ry = inputRef(mx, my), fx = -Math.sin(ry), fz = -Math.cos(ry), rx = Math.cos(ry), rz = -Math.sin(ry); let wx = rx * mx + fx * my, wz = rz * mx + fz * my; const wl = Math.hypot(wx, wz); let tgt = 0;
- if (wl > 0.02) { wx /= wl; wz /= wl; const md = MV.mode, spr = inp.sprint && !STA.ex && !(md === 'land' && MV.wade > 0.5); MV.spr = spr;
-  let top = md === 'land' ? (STA.ex ? 2.4 : spr ? 7.2 : 4.6) : md === 'swim' ? (spr ? 4.2 : 2.3) : (spr ? 3.6 : 2.4);
+ if (wl > 0.02) { wx /= wl; wz /= wl; const md = MV.mode, want = inp.key ? !inp.slow : JOY.on ? JOY.run : mag > 0.75, spr = want && !STA.ex && !(md === 'land' && MV.wade > 0.5); MV.spr = spr;   /* 2026-10-07 夜：跑＝用體力（推出虛線圈；鍵盤唔撳 Shift）；冇力就只可以慢慢行 */
+  let top = md === 'land' ? (spr ? 6.2 : want ? 2.6 : 1.9) : md === 'swim' ? (spr ? 3.4 : want ? 1.3 : 1.6) : (spr ? 3.0 : 1.8);   /* 跑（用體力）／冇力（慢）／行 */
   if (md === 'land') { top *= 1 - 0.5 * sstep(0.08, 0.95, MV.wade); if (MV.exitT < 1.3) top *= 0.5 + 0.5 * MV.exitT / 1.3; }   /* 冇氣就行慢；水愈深行愈慢（腰深一半速）；啱啱上岸頭幾步重 */
-  if (inp.key) tgt = inp.slow && md === 'land' ? 2.1 : top;
-  else if (JOY.on) tgt = JOY.run || (JOY.sprint && mag > 0.25) ? top : Math.min(top, md === 'land' ? Math.min(1.9, 1.2 + Math.max(0, mag - 0.12) * 3) : top * 0.6);   /* 向前跳之後按住＝快跑（用體力），唔使推出外圈 */   /* 觸控：內圈＝行（約 1.9），外圈＝跑（4.6；快跑 7.2） */
+  if (inp.key) tgt = top;
+  else if (JOY.on) tgt = want || md !== 'land' ? top : Math.min(1.9, 1.2 + Math.max(0, mag - 0.12) * 3);   /* 觸控：虛線圈內＝行（約 1.9），推出圈＝跑（6.2，用體力） */
   else tgt = Math.max(md === 'land' ? 1.0 : 0.6, top * Math.min(1, (mag - 0.12) / 0.72));
   if (PL.air && md === 'land') { const k = 1 - Math.exp(-dt * 2.2); PL.dx += (wx - PL.dx) * k; PL.dz += (wz - PL.dz) * k; const l = Math.hypot(PL.dx, PL.dz) || 1; PL.dx /= l; PL.dz /= l; } else { PL.dx = wx; PL.dz = wz; } } else MV.spr = false;   /* 半空：方向慢慢轉，唔可以即刻掉頭 */
  if (GOTO.on) { if (locked || busy || wl > 0.02 || MV.mode !== 'land') GOTO.on = false;   /* 自己郁、傾偈、落水：取消自動行 */
   else { const t = GOTO.get(), gx = t[0] - PL.x, gz = t[1] - PL.z, gd = Math.hypot(gx, gz); GOTO.t += dt; if (gd < GOTO.best - 0.25) { GOTO.best = gd; GOTO.bt = 0; } else GOTO.bt += dt;
    if (gd <= GOTO.r) { GOTO.on = false; tgt = 0; GOTO.fn(); } else if (GOTO.t > 12 || GOTO.bt > 1.5) GOTO.on = false; else { PL.dx = gx / gd; PL.dz = gz / gd; tgt = gd > 5 ? 4.6 : Math.min(1.9, 0.9 + gd * 0.5); } } }   /* 行唔埋（撞牆）1.5 秒就放棄 */
  if (PL.pick && PL.pick.walk) tgt = pickWalk(dt);
+ const pd = $('pad'), tired = JOY.on && JOY.run && STA.ex; if (pd.classList.contains('tired') !== tired) pd.classList.toggle('tired', tired);   /* 冇力：控制杆變紅 */
  const air = PL.air && MV.mode === 'land', wat = MV.mode === 'swim' || MV.mode === 'dive'; PL.spd += (tgt - PL.spd) * (1 - Math.exp(-dt * (air ? (tgt > PL.spd ? 1.5 : 0.8) : wat ? (tgt > PL.spd ? 3.5 : MV.plunge > 0 ? 0.9 : 2.2) : tgt > PL.spd ? 8 : 11))); if (busy) PL.spd = 0; PL.moveT = PL.spd > 0.5 ? (PL.moveT || 0) + dt : 0;   /* 半空保持衝力；水中慢慢加速、停手會滑一段（跳水入水滑得更遠）*/
  const ox = PL.x, oz = PL.z; PL.x += PL.dx * PL.spd * dt; PL.z += PL.dz * PL.spd * dt;
  const ex = []; curNPCs().forEach(function (n) { ex.push({ x:n.root.position.x, z:n.root.position.z, r:0.36 * n.s }); }); resolve(PL, 0.45, ex);
@@ -3415,7 +3422,7 @@ function boot() { const GL2 = (function () { try { return !!document.createEleme
  npcDefsOut().forEach(function (d) { OUT.npcs.push(makeNPC(d, OUT.sc)); }); cloudPatchScene(OUT.sc);
  setupInput(); placePlayer(WD.spawn[0], WD.spawn[1], WD.spawn[2]); updSun();
  // 預先編譯所有 shader（連透視用嘅 ghost 材質、影子嘅 depth 材質：影子鏡頭暫時開到成個島畫一格），之後第一次見到唔會頓
- $('ver').textContent = 'v0.2'; $('verTag').textContent = (function (b) { return '20' + b.slice(0, 6) + ' ' + b.slice(6, 8) + ':' + b.slice(8, 10) + ' ' + 'v0.2'; })('2610072205');   /* 例如「20261007 21:42 v0.2」 */ OCC.sets.forEach(function (S) { S.gh.visible = true; }); rd.compile(OUT.sc, cam); const scm = sun.shadow.camera; scm.left = scm.bottom = -150; scm.right = scm.top = 150; scm.far = 400; scm.updateProjectionMatrix(); sun.position.set(SUND.x * 180, SUND.y * 180, SUND.z * 180); sun.target.position.set(0, 0, 0); sun.target.updateMatrixWorld(); rd.render(OUT.sc, cam);
+ $('ver').textContent = 'v0.2'; $('verTag').textContent = (function (b) { return '20' + b.slice(0, 6) + ' ' + b.slice(6, 8) + ':' + b.slice(8, 10) + ' ' + 'v0.2'; })('2610072220');   /* 例如「20261007 21:42 v0.2」 */ OCC.sets.forEach(function (S) { S.gh.visible = true; }); rd.compile(OUT.sc, cam); const scm = sun.shadow.camera; scm.left = scm.bottom = -150; scm.right = scm.top = 150; scm.far = 400; scm.updateProjectionMatrix(); sun.position.set(SUND.x * 180, SUND.y * 180, SUND.z * 180); sun.target.position.set(0, 0, 0); sun.target.updateMatrixWorld(); rd.render(OUT.sc, cam);
  scm.left = scm.bottom = -QL.ext; scm.right = scm.top = QL.ext; scm.far = 160; scm.updateProjectionMatrix(); OCC.sets.forEach(function (S) { S.gh.visible = false; }); updSun(); const pre = Object.keys(ROOM_BUILD); (function next() { const id = pre.shift(); if (!id) return; setTimeout(function () { try { if (!ROOMS[id]) { const R = getRoom(id); rd.compile(R.sc, cam); } } catch (e) { console.warn('預砌室內失敗', id, e); } next(); }, 900); })(); $('load').hidden = true; warmUntil = performance.now() + 12000; requestAnimationFrame(loop); window.__ready = true; }
 window.addEventListener('load', function () { setTimeout(function () { try { boot(); } catch (e) { $('load').textContent = '載入失敗：' + e.message; console.error(e); } }, 30); });
 
