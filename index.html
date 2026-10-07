@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="tprpg-build" content="2610071955">
+<meta name="tprpg-build" content="2610072108">
 <title>旅遊星球RPG</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,8 +31,6 @@ button{font-family:var(--f-ui);touch-action:manipulation}
 #ttl{font-family:var(--f-disp);font-weight:900;letter-spacing:.04em}
 #place{font:800 13px/1 var(--f-ui);color:var(--parch);background:var(--night);padding:7px 12px;border-radius:999px;pointer-events:none;letter-spacing:.04em}
 #acts{position:absolute;right:calc(env(safe-area-inset-right,0px) + 14px);bottom:calc(env(safe-area-inset-bottom,0px) + 16px);display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;gap:12px 14px;align-items:end;justify-items:center;z-index:4}
-#bA{grid-column:2;grid-row:1/3}#bJump{grid-column:1;grid-row:2}#bRise{grid-column:1;grid-row:1}
-.rb.mid{width:68px;height:68px;font:800 16px/1 var(--f-ui);background:radial-gradient(circle at 38% 32%,#fff7e6,var(--parch2));border-color:var(--wood);color:var(--ink)}
 #sta{position:absolute;left:0;top:0;pointer-events:none;z-index:3;filter:drop-shadow(0 1px 2px rgba(0,0,0,.4))}#sta circle{fill:none;stroke-width:6}#sta .bg{stroke:rgba(20,30,20,.45)}#sta .fg{stroke:#8fe04e;stroke-linecap:round}#sta.low .fg{stroke:#f2c94c}#sta.ex .fg{stroke:#f05a3a}
 .rb{display:grid;place-items:center;align-content:center;border-radius:50%;border:3px solid var(--goldline);background:radial-gradient(circle at 38% 32%,var(--gold2),var(--gold));color:#4a300c;box-shadow:0 4px 12px rgba(40,25,10,.45);cursor:pointer;padding:0}
 .rb.sm{width:58px;height:58px;font:800 14px/1 var(--f-ui);background:radial-gradient(circle at 38% 32%,#fff7e6,var(--parch2));border-color:var(--wood);color:var(--ink)}
@@ -70,17 +68,24 @@ button{font-family:var(--f-ui);touch-action:manipulation}
 .slot{display:grid;justify-items:center;gap:4px;padding:10px 6px 8px;border-radius:14px;border:2.5px solid var(--wood);background:rgba(255,252,240,.7);cursor:pointer;font:700 13px/1.15 var(--f-ui);color:var(--ink)}
 .slot img{width:58px;height:58px}.slot .ct{font-size:12px;opacity:.75}.slot.on{border-color:var(--gold);box-shadow:0 0 0 3px rgba(226,168,58,.45)}.slot:active{transform:scale(.95)}
 #bagE{font:600 14px/1.5 var(--f-ui);color:var(--ink);margin:6px 4px}
-#hold{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 18px);display:grid;justify-items:center;gap:6px;z-index:4;pointer-events:none}
+#hold{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 14px);display:grid;justify-items:center;gap:6px;z-index:4;pointer-events:none}
+#app.talk #hold{display:none}
 #holdN{font:800 13px/1 var(--f-ui);color:var(--parch);background:var(--night);padding:6px 12px;border-radius:999px}
-#hold .hrow{display:flex;gap:8px;pointer-events:auto}
-.hb{min-width:62px;height:52px;padding:0 14px;border-radius:16px;border:3px solid var(--goldline);background:radial-gradient(circle at 38% 32%,var(--gold2),var(--gold));font:900 18px/1 var(--f-ui);color:#4a300c;box-shadow:0 4px 12px rgba(40,25,10,.45);cursor:pointer}
-.hb.sm2{background:linear-gradient(var(--parch),var(--parch2));border-color:var(--wood);color:var(--ink);font-size:15px}.hb:active{transform:scale(.94)}
-@media (max-width:620px){#hold{left:auto;right:calc(env(safe-area-inset-right,0px) + 12px);transform:none;bottom:calc(env(safe-area-inset-bottom,0px) + 186px);justify-items:end}.hb{min-width:52px;height:48px;padding:0 10px;font-size:17px}}
+/* 六角形選單（蜂巢）：中間六角形＝手上物品（按＝收起），上、右下、左下三個六角形＝拋、給、用；每個用 clip-path 剪成六角形，只有六角形範圍按得到 */
+.hex{--r:44px;--h:calc(var(--r) * 1.732);--D:calc(var(--h) + 5px);position:relative;width:calc(var(--D) * 1.732 + var(--r) * 2);height:calc(var(--D) * 1.5 + var(--h));animation:hexIn .2s ease-out;filter:drop-shadow(0 4px 8px rgba(40,25,10,.45))}
+@keyframes hexIn{from{transform:scale(.55);opacity:0}to{transform:none;opacity:1}}
+.hx{position:absolute;width:calc(var(--r) * 2);height:var(--h);left:calc(50% - var(--r));top:0;border:0;padding:0;margin:0;background:var(--wood);clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);display:grid;place-items:center;align-content:center;gap:2px;cursor:pointer;pointer-events:auto;isolation:isolate;-webkit-tap-highlight-color:transparent;font:900 15px/1 var(--f-ui);color:#4a300c}
+.hx::before{content:"";position:absolute;inset:3px;background:radial-gradient(circle at 40% 30%,#fffaf0,#efdcb4);clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);z-index:-1}
+.hx svg{width:28px;height:28px;display:block}.hx:active::before{background:radial-gradient(circle at 40% 30%,#fff3c4,#e8b04a)}.hx:focus-visible{outline:none;background:var(--teal)}
+#hGive{left:calc(50% + var(--D) * 0.866 - var(--r));top:calc(var(--D) * 1.5)}#hUse{left:calc(50% - var(--D) * 0.866 - var(--r));top:calc(var(--D) * 1.5)}
+#hPut{top:var(--D);background:var(--goldline)}#hPut::before{background:radial-gradient(circle at 40% 30%,var(--gold2),var(--gold))}#hPut img{width:34px;height:34px}#hPut span{font:800 11px/1 var(--f-ui)}
+@media (max-width:620px){#hold{left:auto;right:calc(env(safe-area-inset-right,0px) + 8px);transform:none;bottom:calc(env(safe-area-inset-bottom,0px) + 116px);justify-items:end}.hex{--r:38px}.hx{font-size:14px}.hx svg{width:24px;height:24px}#hPut img{width:29px;height:29px}}
+@media (max-height:520px){#hold{left:auto;right:calc(env(safe-area-inset-right,0px) + 102px);transform:none;bottom:calc(env(safe-area-inset-bottom,0px) + 8px);justify-items:end}.hex{--r:32px}.hx{font-size:13px;gap:1px}.hx svg{width:21px;height:21px}#hPut img{width:25px;height:25px}#hPut span{font-size:10px}}
 #aimUI{position:absolute;inset:0;z-index:4;pointer-events:none}
 #xhair{position:absolute;left:50%;top:50%;width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;border:3px solid rgba(255,255,255,.9);box-shadow:0 0 0 2px rgba(0,0,0,.35),inset 0 0 0 2px rgba(0,0,0,.25)}
+#xhair.hold{width:46px;height:46px;margin:-23px 0 0 -23px}#xhair.npc{border-color:#ffb03a;box-shadow:0 0 0 2px rgba(0,0,0,.35),0 0 14px rgba(255,160,40,.85)}#xhair.npc::before{background:#ffb03a}
 #xhair::before,#xhair::after{content:"";position:absolute;left:50%;top:50%;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.35)}#xhair::before{width:4px;height:4px;margin:-2px 0 0 -2px;border-radius:50%}
-#aimTip{position:absolute;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 64px);font:700 14px/1.2 var(--f-ui);color:var(--parch);background:var(--night);padding:8px 14px;border-radius:999px;white-space:nowrap}
-#aThrow{position:absolute;right:calc(env(safe-area-inset-right,0px) + 18px);bottom:calc(env(safe-area-inset-bottom,0px) + 22px);pointer-events:auto}
+#aimTip{position:absolute;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 112px);font:700 14px/1.2 var(--f-ui);color:var(--parch);background:var(--night);padding:8px 14px;border-radius:999px;white-space:nowrap}
 #aCancel{position:absolute;left:calc(env(safe-area-inset-left,0px) + 16px);bottom:calc(env(safe-area-inset-bottom,0px) + 22px);pointer-events:auto}
 .bub.say{background:rgba(226,120,40,.92)}
 #mini{position:absolute;left:calc(env(safe-area-inset-left,0px) + 12px);bottom:calc(env(safe-area-inset-bottom,0px) + 14px);width:124px;height:124px;border-radius:50%;border:3px solid var(--wood);box-shadow:0 4px 12px rgba(20,12,4,.45);background:#5a9ab8;z-index:3;cursor:pointer;touch-action:manipulation}
@@ -120,12 +125,12 @@ button{font-family:var(--f-ui);touch-action:manipulation}
   <div id="topR"><div id="topRrow"><button id="bMap" class="chip" type="button">地圖</button><button id="bSet" class="chip" type="button">設定</button><button id="bBag" class="chip" type="button" aria-label="背包"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6.5V5a4 4 0 0 1 8 0v1.5" fill="none" stroke="#5a3a20" stroke-width="1.8"/><rect x="4.5" y="6.5" width="15" height="15" rx="4" fill="#b8763a" stroke="#5a3a20" stroke-width="1.6"/><rect x="7.5" y="12.5" width="9" height="6" rx="2" fill="#d89a58" stroke="#5a3a20" stroke-width="1.4"/><path d="M4.5 11h15" stroke="#5a3a20" stroke-width="1.4"/></svg>背包</button></div></div>
  </div>
  <div id="pad" hidden><div id="knob"></div></div>
- <div id="acts"><button id="bRise" class="rb mid" type="button" hidden>上浮</button><button id="bJump" class="rb mid" type="button"><span id="jLbl">跳</span></button><button id="bA" class="rb big off" type="button" aria-label="A 鍵"><b>A</b><span id="aLbl">對話</span></button></div>
+ <div id="acts"><button id="bA" class="rb big off" type="button" aria-label="A 鍵"><b>A</b><span id="aLbl">對話</span></button></div>
  <div id="sta" hidden><svg viewBox="0 0 40 40" width="46" height="46"><circle cx="20" cy="20" r="15" class="bg"/><circle cx="20" cy="20" r="15" class="fg" transform="rotate(-90 20 20)"/></svg></div>
  <div id="dlg" hidden><div id="dlgN"></div><div id="dlgT"></div><div id="dlgM">▼</div></div>
  <div id="mapw" hidden><div class="card"><div id="mapT">星球地圖</div><button id="mapX" class="chip" type="button">關閉</button><canvas id="mapc" width="1024" height="1024" aria-label="星球地圖"></canvas></div></div>
- <div id="hold" hidden><div id="holdN"></div><div class="hrow"><button id="hThrow" class="hb" type="button">拋</button><button id="hGive" class="hb" type="button">給</button><button id="hUse" class="hb" type="button">用</button><button id="hPut" class="hb sm2" type="button">收起</button></div></div>
- <div id="aimUI" hidden><div id="xhair"></div><div id="aimTip">拖動畫面瞄準，按「拋出」或輕按畫面</div><button id="aThrow" class="rb big" type="button"><b>拋</b><span>拋出</span></button><button id="aCancel" class="chip" type="button">取消</button></div>
+ <div id="hold" hidden><div id="holdN"></div><div class="hex"><button id="hThrow" class="hx" type="button" aria-label="拋"><svg viewBox="-17 -17 34 34" aria-hidden="true"><circle cx="-11" cy="9" r="5" fill="#e07a3a"/><path d="M-6 5Q2 -17 13 -6" fill="none" stroke="#a8541c" stroke-width="3" stroke-linecap="round" stroke-dasharray="4.5 4"/><path d="M17 -2L9.6 -3.4L14.8 -9.6Z" fill="#a8541c"/></svg><span>拋</span></button><button id="hPut" class="hx" type="button" aria-label="收起"><img id="holdI" alt=""><span>收起</span></button><button id="hGive" class="hx" type="button" aria-label="給"><svg viewBox="-17 -17 34 34" aria-hidden="true"><path d="M-14 2Q-14 15 0 15Q14 15 14 2" fill="none" stroke="#2f8f8a" stroke-width="3.4" stroke-linecap="round"/><path d="M0 0C-9 -6 -7.5 -15 -1.6 -12.6Q0 -11.8 0 -10.6Q0 -11.8 1.6 -12.6C7.5 -15 9 -6 0 0Z" fill="#e2566a"/></svg><span>給</span></button><button id="hUse" class="hx" type="button" aria-label="用"><svg viewBox="-17 -17 34 34" aria-hidden="true"><path d="M-2 -14Q0.6 -2.6 13 0Q0.6 2.6 -2 14Q-4.6 2.6 -17 0Q-4.6 -2.6 -2 -14Z" fill="#e2a83a" stroke="#8a5a1a" stroke-width="1.5" stroke-linejoin="round"/><path d="M11 -14Q11.8 -11.8 14 -11Q11.8 -10.2 11 -8Q10.2 -10.2 8 -11Q10.2 -11.8 11 -14Z" fill="#e2a83a"/></svg><span>用</span></button></div></div>
+ <div id="aimUI" hidden><div id="xhair"></div><div id="aimTip">按住畫面拖動準星，放手便拋出</div><button id="aCancel" class="chip" type="button">取消</button></div>
  <div id="bagw" hidden><div class="card"><div id="bagT">背包</div><button id="bagX" class="chip" type="button">關閉</button><div id="bagG"></div><p id="bagE">背包是空的。採花，或在沙灘和海床撿貝殼、海星，便會放進背包。</p></div></div>
  <div id="mini" hidden role="button" aria-label="小地圖（按一下打開大地圖）"><canvas id="minic" width="240" height="240"></canvas></div>
  <div id="setw" hidden><div class="card"><div id="setT">設定</div><button id="setX" class="chip" type="button">關閉</button>
@@ -134,14 +139,14 @@ button{font-family:var(--f-ui);touch-action:manipulation}
  <div id="fade"></div>
  <div id="toast" hidden></div><div id="fps"></div>
  <div id="help"><div class="card"><h1>旅遊星球RPG</h1><p class="sub">原始場景：沿用新．旅遊星球的島嶼、建築和地形，以 three.js 重新製作成第三人稱世界。四處走走、進屋參觀，與外星居民聊天。整個星球只有你是人類。</p>
-  <dl><dt>手機</dt><dd>單指在畫面任何位置拖動＝行走（推到盡＝跑步；連按兩下再拖動＝快跑）；行走時用另一隻手指拖動，或雙指拖動＝轉動鏡頭；雙指開合＝拉近拉遠</dd>
-   <dt>電腦</dt><dd><span class="k">W A S D</span>／方向鍵＝行走（同一個鍵連按兩下＝快跑）；<span class="k">空白鍵</span>＝跳；滑鼠拖動＝轉動鏡頭；滾輪＝拉近拉遠；按住 <span class="k">Shift</span>＝慢行</dd>
-   <dt>游泳</dt><dd>走進深水便會游泳；按住「潛水」潛到水底，按住「上浮」浮回水面<span class="nw">（電腦：空白鍵／<span class="k">Shift</span>）</span></dd>
+  <dl><dt>手機</dt><dd>單指在畫面任何位置拖動＝行走（推到盡＝跑步）；連按兩下＝跳；連按兩下再推前＝向前跳，按住不放繼續快跑；行走時用另一隻手指拖動，或雙指拖動＝轉動鏡頭；雙指開合＝拉近拉遠</dd>
+   <dt>電腦</dt><dd><span class="k">W A S D</span>／方向鍵＝行走（同一個鍵連按兩下＝快跑）；<span class="k">空白鍵</span>＝跳（跑步時＝向前跳）；滑鼠拖動＝轉動鏡頭；滾輪＝拉近拉遠；按住 <span class="k">Shift</span>＝慢行</dd>
+   <dt>游泳</dt><dd>走進深水便會游泳，停下時踩水；連按兩下並按住＝潛水，放手便慢慢浮上水面<span class="nw">（電腦：按住空白鍵潛水、<span class="k">Shift</span> 上浮）</span>；在碼頭向前跳可跳水；碼頭盡頭有梯，游過去便可爬上岸</dd>
    <dt>體力</dt><dd>快跑、快速游泳和潛水會消耗體力（主角旁的綠色圓圈）；用盡時圓圈變紅，須等體力回滿才能再用</dd>
    <dt>進屋</dt><dd>走進門口即可進入；在屋內走回門口的地氈即可離開</dd>
    <dt>A 鍵</dt><dd>與居民對話、進屋，或在花旁採花<span class="nw">（電腦 <span class="k">E</span>）</span></dd>
    <dt>地圖</dt><dd>左下角小地圖顯示自己的位置，按一下打開大地圖<span class="nw">（<span class="k">M</span>）</span>；可在「設定」選擇不顯示小地圖</dd>
-   <dt>背包</dt><dd>右上角「背包」：選一件物品拿在手上，再選「拋」「給」「用」；拋的時候會轉成第一人稱視角，對準準星再拋出<span class="nw">（電腦 <span class="k">B</span>）</span></dd>
+   <dt>背包</dt><dd>右上角「背包」：選一件物品拿在手上，再在六角形選單選「拋」「給」「用」，中間＝收起；拋的時候轉成第一人稱視角，按住畫面拖動準星，放手便拋出<span class="nw">（電腦 <span class="k">B</span>）</span></dd>
    <dt>鏡頭</dt><dd>近距離跟在主角後方；電腦按 <span class="k">R</span> 鏡頭轉回主角後方</dd></dl>
   <button id="bGo" class="go" type="button">開始</button><p class="ver" id="ver"></p></div></div>
  <div id="load">星球載入中…</div>
@@ -1117,7 +1122,7 @@ function buildHills(L) { const N = SDN, g = new Float32Array(N * N), INF = 1e20;
  for (let k = 0; k < N * N; k++) { const i = k % N, j = (k / N) | 0, x = SDO + (i + 0.5) * SDS, z = SDO + (j + 0.5) * SDS, dist = Math.sqrt(g[k]) * SDS, s = SDF[k];
   const n = fbm(x * 0.035 + sd, z * 0.035 - sd, 4), n2 = fbm(x * 0.09 - sd, z * 0.09 + sd, 3);
   HILL[k] = Math.max(0, n - 0.42) * 5.2 * sstep(3, 13, dist) * sstep(-2, -9, s) + Math.max(0, n2 - 0.5) * 0.9 * sstep(2, 7, dist) * sstep(-1.5, -5, s); } }
-// 地面高度：陸地（有起伏）→ 沙灘慢慢斜落水 → 海床（2026-10-08：再深落去，最深約 9.5，有沙丘起伏，游得水、潛得水）
+// 地面高度：陸地（有起伏）→ 沙灘慢慢斜落水 → 海床（2026-10-07：再深落去，最深約 9.5，有沙丘起伏，游得水、潛得水）
 const SEA_Y = -0.38;
 function terrH(x, z) { const s = sdAt(x, z); if (s < -0.6) return hillAt(x, z);
  return -1.8 * sstep(-0.6, 3.8, s) - 6.8 * sstep(3.5, 24, s) - (nzAt(1, x * 0.021 + 0.3, z * 0.021 + 0.7) - 0.5) * 2.4 * sstep(5, 14, s) + hillAt(x, z); }
@@ -1231,7 +1236,7 @@ const WFS = ['uniform float uRain;uniform float uTime;uniform float uO;uniform f
  'float wv(vec2 p){return sin(p.x*1.13+uTime*1.3)*0.5+sin(p.y*1.53-uTime*1.05)*0.4+sin((p.x+p.y)*2.07+uTime*1.9)*0.22+sin((p.x-p.y)*3.13-uTime*2.4)*0.12;}',
  'void main(){float s;if(uPond.w>0.0){s=(uPond.z-length(vW.xz-uPond.xy))*1.1+0.4;}else{vec2 uv=(vW.xz-vec2(uO))/uSz;s=(uv.x>0.002&&uv.x<0.998&&uv.y>0.002&&uv.y<0.998)?texture2D(uSdf,uv).r*20.0-10.0:12.0;}',
  'vec2 p=vW.xz*0.6;float e=0.05;float dx=(wv(p+vec2(e,0.0))-wv(p-vec2(e,0.0)))/(2.0*e);float dz=(wv(p+vec2(0.0,e))-wv(p-vec2(0.0,e)))/(2.0*e);vec3 n=normalize(vec3(-dx*0.07,1.0,-dz*0.07));vec3 v=normalize(cameraPosition-vW);',
- // 由水底望上去（2026-10-08 潛水）：頭頂一個光亮嘅「水窗」，斜望就暗藍；水面波紋閃光
+ // 由水底望上去（2026-10-07 潛水）：頭頂一個光亮嘅「水窗」，斜望就暗藍；水面波紋閃光
  'if(!gl_FrontFacing){float up=clamp(-v.y,0.0,1.0);vec3 uc=mix(uDeep*0.62,uSky*1.12+vec3(0.05,0.1,0.08),smoothstep(0.42,0.9,up+(n.x+n.z)*0.9));uc+=uSunC*pow(max(dot(reflect(-normalize(uSunD),n),v),0.0),24.0)*0.35;gl_FragColor=vec4(uc,0.95);',
  '#include <tonemapping_fragment>', '#include <encodings_fragment>', '#include <fog_fragment>', 'return;}',
  'float d=clamp(s,0.0,14.0);vec3 col=mix(uShal,uDeep,smoothstep(0.8,8.0,d));float fr=pow(1.0-max(dot(n,v),0.0),3.0);col=mix(col,uSky,0.12+fr*0.45);',
@@ -1816,6 +1821,8 @@ function bPlaza(cx, cz) { const g = grp(cx, cz, 0); const prev = scene; scene = 
  addCirc(cx, cz, FOUNT_R + 0.05); return g; }
 
 // ---------- 碼頭：木板、木樁、燈籠、繫船柱、小艇（可以行出海）----------
+// 碼頭盡頭嘅爬梯（2026-10-07）：游到梯前面就可以爬上碼頭（見 play.js）
+const LADDERS = [];
 function bPier(base, dir) { const ang = Math.atan2(dir[0], dir[1]), L = 13, g = grp(base[0] + dir[0] * L / 2, base[1] + dir[1] * L / 2, ang);
  const deck = plankM('#a07a52', 191, 7, [1, 4]), post = colM(0x5a3e28, 0.9); M(new T.BoxGeometry(3.4, 0.22, L), deck, 0, 0.42, 0, g);
  for (let k = 0; k <= 5; k++) [-1, 1].forEach(function (s) { M(new T.CylinderGeometry(0.17, 0.17, 3.2, 8), post, s * 1.55, -0.9, -L / 2 + k * L / 5, g); });
@@ -1826,7 +1833,10 @@ function bPier(base, dir) { const ang = Math.atan2(dir[0], dir[1]), L = 13, g = 
  // 小艇
  const bt = new T.Group(); bt.position.set(3.4, -0.2, L / 2 - 2.5); bt.rotation.y = 0.12; g.add(bt); const hull = new T.LatheGeometry(v2([[0.001, 0], [0.6, 0.05], [0.85, 0.35], [0.9, 0.55]]), 20); hull.scale(1, 1, 2.6);
  M(hull, plankM('#c8664a', 193, 6), 0, 0, 0, bt); M(new T.BoxGeometry(1.4, 0.08, 0.4), plankM('#a07a52', 194, 4), 0, 0.42, 0, bt); BLD.anim.push({ t:'boat', o:bt, y:-0.2 });
- const c = Math.cos(ang), s = Math.sin(ang); addPlatRot(g.position.x, g.position.z, 1.75, L / 2 + 0.5, ang, 0.53); addBoxW(g, 1.62, 0, 0.1, L / 2, 0, 'pl'); addBoxW(g, -1.62, 0, 0.1, L / 2, 0, 'pl'); addBoxW(g, 0, L / 2 + 0.1, 1.7, 0.1, 0, 'pl');
+ // 盡頭爬梯（喺燈籠柱旁邊，中間留空可以跑去盡頭跳水）：兩條扶手高過碼頭面、六級；盡頭唔再擋住，只係梯嗰度擋住
+ const lad = colM(0x4a3422, 0.9); const LX = 1.0; [-0.3, 0.3].forEach(function (x) { M(new T.BoxGeometry(0.07, 2.9, 0.07), lad, LX + x, -0.05, L / 2 + 0.08, g); }); for (let k = 0; k < 6; k++) M(new T.BoxGeometry(0.6, 0.05, 0.06), lad, LX, -1.25 + k * 0.33, L / 2 + 0.08, g);
+ const ca = Math.cos(ang), sa = Math.sin(ang); LADDERS.push({ x:g.position.x + LX * ca + (L / 2 + 0.08) * sa, z:g.position.z - LX * sa + (L / 2 + 0.08) * ca, nx:dir[0], nz:dir[1], top:0.53 });
+ addPlatRot(g.position.x - dir[0] * 0.19, g.position.z - dir[1] * 0.19, 1.75, L / 2 + 0.31, ang, 0.53); addBoxW(g, 1.62, 0, 0.1, L / 2, 0, 'pl'); addBoxW(g, -1.62, 0, 0.1, L / 2, 0, 'pl'); addBoxW(g, LX, L / 2 + 0.08, 0.38, 0.08, 0, 'pl');
  WALK.push({ x:g.position.x, z:g.position.z, hx:1.75, hz:L / 2 + 0.6, c:Math.cos(ang), s:Math.sin(ang) }); return g; }
 
 // ---------- 原居民屋（舊版 v9：杏兒蘑菇屋、勇龍樹樁屋、心悠貝殼屋）----------
@@ -2437,7 +2447,7 @@ function buildSmoke(par) { const B = [], Ph = [], NP = 10;
  const pts = new T.Points(g, m); pts.frustumCulled = false; pts.renderOrder = 4; pts.onBeforeRender = function (r) { U.uScale.value = r.getContext().drawingBufferHeight * 0.5; }; par.add(pts); VIL.smoke = pts; return pts; }
 
 // ===== sea.js =====
-// ===== 海底（2026-10-08）：珊瑚礁、海葵、海草、貝殼、海星（Blender 砌，sea_data.js），同埋會游嘅魚群 =====
+// ===== 海底（2026-10-07）：珊瑚礁、海葵、海草、貝殼、海星（Blender 砌，sea_data.js），同埋會游嘅魚群 =====
 // 全部 InstancedMesh：每款一次 draw call。魚嘅擺尾、魔鬼魚拍翼、海草海葵擺動喺 vertex shader 做；魚嘅位置每格喺 CPU 計（約 200 條，好平）
 
 const SEAW = { items:{}, mesh:{}, fish:[], reefs:[], t:0 };
@@ -2613,7 +2623,7 @@ function dreamCloudTex(seed, wisp) {
  g.putImageData(im, 0, 0); return c; }
 
 // ===== sky.js =====
-// ===== 時間同天氣（2026-10-08）：跟裝置時鐘分日頭、傍晚、夜晚；落雨跟香港天文台實時天氣 =====
+// ===== 時間同天氣（2026-10-07）：跟裝置時鐘分日頭、傍晚、夜晚；落雨跟香港天文台實時天氣 =====
 // 天氣來源：香港天文台開放數據「本港地區天氣報告」（data.weather.gov.hk，免費、唔使登記）嘅天氣圖示：53、54、62–64 落雨，65 雷暴，60、61、76 多雲，83–85 有霧。讀唔到就當天晴
 // 測試：網址加 ?t=19.5（鐘數）、?wx=rain／storm／cloudy／fog／clear；測試版另有 time()、wx() 掛鈎（testhooks.js）
 
@@ -2692,77 +2702,218 @@ function updEnv(dt) { const h = envHour(); ENV.h = h; envSample(h);
 function envLabel() { const h = ENV.h, t = h < 5.6 || h >= 19.4 ? '夜晚' : h < 7.6 ? '清晨' : h < 16.6 ? '日間' : '傍晚'; const w = ENV.rain > 0.5 ? (ENV.storm > 0.5 ? '・雷暴' : '・下雨') : ENV.cloudy > 0.5 ? '・多雲' : ENV.fog > 0.5 ? '・有霧' : ''; return t + w; }
 
 // ===== play.js =====
-// ===== 玩法動作（2026-10-08）：體力（似開放世界冒險遊戲嘅體力圈）、跳、游水、潛水 =====
+// ===== 玩法動作（2026-10-07）：體力（似開放世界冒險遊戲嘅體力圈）、跳、游水、潛水 =====
 // 只借手法：快跑、快游、潛水用體力；用晒就「冇氣」（圈變紅），要等體力回滿先再用得；潛水時體力當氧氣，用晒自動浮返上水面
+// 2026-10-07：上水、落水動作做真啲（參考網上游水動畫製作指南嘅做法，只借手法、冇抄任何素材；來源見 docs/06）
+//  ・涉水分深淺：腳眼深照行；膝頭深行慢、提高膝頭；大髀至腰深雙手舉起離開水面、身向前推水；每步濺水、有水紋
+//  ・深過胸先轉游水，約 0.5 秒由陸地姿勢慢慢變游水姿勢；入水 1.15 米、出水 0.9 米（唔會喺邊界閃來閃去）
+//  ・水面停低＝企直踩水（手喺兩邊撥、腳輪流踩）；游＝打橫蛙式（撥手、收腳、撐水、滑行，換氣時抬頭）
+//  ・跳水：向前跳落深水，身體順住飛行方向轉，雙手伸直過頭、頭先入水，水底滑行一陣再浮上；高處跌落水：腳先落、沉落去再浮返上
+//  ・浮出水面：搖頭、吸一啖氣；上岸：慢慢企直、頭幾步行得重、身上滴水，濕咗嘅位深色啲（約半分鐘乾）
+//  ・碼頭盡頭有梯：游埋去推向梯（或者按 A「攀上」）就爬上碼頭
 
 const STA = { v:100, max:100, ex:false, wait:0, show:0 };
-// mode：land 陸地／swim 水面游／dive 潛水。jumpQ 跳（一下）；diveH、riseH 撳住潛落、上浮
-const MV = { mode:'land', jumpQ:false, diveH:false, riseH:false, spr:false, wade:-9, ph:0, under:false, bt:0 };
+// mode：land 陸地／swim 水面／dive 潛水／climb 爬梯。jumpQ 跳、leapQ 向前跳（一下）；diveH、riseH 按住潛落、上浮
+const MV = { mode:'land', jumpQ:false, leapQ:false, leapLate:false, diveH:false, riseH:false, spr:false, inp:false, wade:-9, wk:0, ph:0, under:false, bt:0,
+ sw:0, tread:1, plunge:0, entry:'', diveT:0, gasp:0, exitT:9, wet:0, wetH:0, dryT:0, drip:0, dAcc:0, leap:false, diveJ:false, dLean:0, climb:null, hint:false, stepN:0, rT:0 };
 const SWIM_IN = 1.15, SWIM_OUT = 0.9;   // 水深（水面－地面）：深過 1.15 就游，淺過 0.9 就企返起身
 
 function swimBounds(x, z) { return sdAt(x, z) < 40 && Math.abs(x) < 125 && Math.abs(z) < 125; }
+function floatHip() { return SEA_Y - 0.22 - 0.14 * MV.tread; }   // 游水時盤骨高度：斜住身游，頭同膊頭喺水面；企直踩水低少少（下巴貼水面）。主角頭大身短，盤骨對上 0.35 米就係膊頭
+function resetMove() { MV.mode = 'land'; MV.sw = 0; MV.climb = null; MV.plunge = 0; MV.entry = ''; MV.leap = MV.diveJ = false; MV.jumpQ = MV.leapQ = MV.leapLate = MV.diveH = MV.riseH = false; MV.exitT = 9; MV.wk = 0; MV.gasp = 0; PL.swTilt = 0; }
 
-// 每格：高度、跳、入水出水、游水、潛水、體力
+// 每格：高度、跳、入水出水、游水、潛水、爬梯、體力、濕身
 function updMoveY(dt, locked) {
  const out = AREA.id === 'out', Hh = PIVK * PL.S, dep = out ? SEA_Y - groundH(PL.x, PL.z, PL.y + 0.5) : -9; MV.wade = dep;
- if (MV.mode === 'land') {
-  if (MV.jumpQ && !PL.air && !locked) { PL.vy = 7.2; PL.air = true; PL.jumpT = 0; }
-  const fl = groundH(PL.x, PL.z, PL.y);
-  if (PL.air) { PL.vy -= 21 * dt; PL.y += PL.vy * dt; PL.jumpT = (PL.jumpT || 0) + dt; if (PL.y <= fl && PL.vy <= 0) { PL.y = fl; PL.air = false; PL.land = 0.16; PL.vy = 0; } }
-  else { if (fl < PL.y - 0.55) { PL.air = true; PL.vy = 0; } else PL.y += (fl - PL.y) * (1 - Math.exp(-dt * 16)); }
+ MV.exitT += dt; MV.gasp = Math.max(0, MV.gasp - dt); MV.plunge = Math.max(0, MV.plunge - dt);
+ if (MV.mode === 'climb') climbStep(dt);
+ else if (MV.mode === 'land') { const fl = groundH(PL.x, PL.z, PL.y);
+  if ((MV.jumpQ || MV.leapQ) && !PL.air && !locked && MV.exitT > 0.4 && dep < 0.95) { const leap = MV.leapQ && MV.inp, dk = Math.max(0, Math.min(1, dep / 0.95));   /* 水深跳得矮啲 */
+   PL.vy = (leap ? 6.4 : 7.2) * (1 - 0.45 * dk); PL.air = true; PL.jumpT = 0; MV.leap = leap; if (leap) PL.spd = Math.max(PL.spd, 6.8 * (1 - 0.5 * dk));
+   MV.diveJ = (leap || PL.spd > 3.4) && deepAhead(); MV.dLean = 0.3;   /* 前面係深水：跳水 */
+   if (dep > 0.03) { fxSplash(PL.x, PL.z, 0.3 + 0.4 * dk); ripple(PL.x, PL.z, 0.5, 1.6, 1.0); } }
+  else if (MV.leapLate && PL.air && PL.jumpT < 0.3 && MV.inp && !MV.leap) { MV.leap = true; PL.spd = Math.max(PL.spd, 6.2); MV.diveJ = deepAhead(); MV.dLean = 0.3; }   /* 跳咗先推：補返向前跳 */
+  if (PL.air) { PL.vy -= 21 * dt; PL.y += PL.vy * dt; PL.jumpT = (PL.jumpT || 0) + dt;
+   if (PL.y <= fl && PL.vy <= 0) { const hv = -PL.vy; PL.y = fl; PL.air = false; PL.land = MV.leap ? 0.24 : 0.16; PL.vy = 0; MV.leap = MV.diveJ = false; if (dep > 0.03) { fxSplash(PL.x, PL.z, Math.min(1, 0.25 + hv / 14)); ripple(PL.x, PL.z, 0.5, 1.9, 1.1); } } }
+  else { if (fl < PL.y - 0.55) { PL.air = true; PL.vy = 0; PL.jumpT = 0; } else PL.y += (fl - PL.y) * (1 - Math.exp(-dt * (MV.exitT < 0.9 ? 4.5 : 16))); }   /* 啱啱上岸：慢慢企起身 */
   if (PL.land > 0) PL.land = Math.max(0, PL.land - dt);
-  if (out && dep > SWIM_IN && (!PL.air || PL.y + Hh * 0.6 < SEA_Y)) { MV.mode = 'swim'; PL.air = false; PL.land = 0; fxSplash(PL.x, PL.z, Math.min(1, Math.abs(PL.vy) / 6 + 0.4)); PL.vy = Math.min(0, PL.vy) * 0.3; }
- } else {
-  const hip = PL.y + Hh, top = SEA_Y - 0.12, floor = terrH(PL.x, PL.z) + 0.6;
-  if (dep < SWIM_OUT || !out) { MV.mode = 'land'; PL.vy = 0; PL.y = Math.max(PL.y, groundH(PL.x, PL.z, PL.y) - 0.3); }
-  else if (MV.mode === 'swim') { if ((MV.diveH || MV.jumpQ) && !STA.ex && !locked && top - floor > 0.5) { MV.mode = 'dive'; PL.vy = -1.5; }
-   else { const ty = top + Math.sin(NOWT * 2.2) * 0.03 - Hh; PL.y += (ty - PL.y) * (1 - Math.exp(-dt * 5)); PL.vy = 0; } }
-  else { const want = STA.ex ? 2.8 : MV.diveH && !locked ? -2.4 : MV.riseH && !locked ? 2.4 : 0.35;   // 唔撳：慢慢浮上去
-   PL.vy += (want - PL.vy) * (1 - Math.exp(-dt * 4)); let h2 = hip + PL.vy * dt; if (h2 < floor) { h2 = floor; PL.vy = Math.max(0, PL.vy); }
-   if (h2 >= top) { h2 = top; if (!MV.diveH || STA.ex) MV.mode = 'swim'; } PL.y = h2 - Hh; }
- }
- MV.jumpQ = false;
+  if (out && dep > SWIM_IN && (!PL.air || PL.y + Hh < SEA_Y + (MV.diveJ ? 0.8 : 0.25))) enterWater(dep); }
+ else { const hip = PL.y + Hh, floor = terrH(PL.x, PL.z) + 0.6; MV.diveT = MV.mode === 'dive' ? MV.diveT + dt : 0;
+  if (!out || dep < SWIM_OUT) exitWater();
+  else if (MV.mode === 'swim') { const L = nearLadder();
+   if (L && MV.inp && !locked && PL.dx * -L.nx + PL.dz * -L.nz > 0.55) startClimb(L);   /* 游向碼頭梯：爬上去 */
+   else if (MV.diveH && !STA.ex && !locked && SEA_Y - floor > 0.8) { MV.mode = 'dive'; MV.entry = 'duck'; MV.diveT = 0; PL.vy = -1.4; fxSplash(PL.x + PL.dx * 0.4, PL.z + PL.dz * 0.4, 0.3); ripple(PL.x, PL.z, 0.4, 1.7, 1.0); }   /* 頭向下鑽落水 */
+   else { const ty = Math.max(floatHip() + Math.sin(NOWT * 2.2) * (0.025 + 0.02 * MV.tread), SEA_Y - dep + 0.25) - Hh; PL.y += (ty - PL.y) * (1 - Math.exp(-dt * 4)); PL.vy = 0; } }
+  else { const want = STA.ex ? 2.8 : MV.diveH && !locked ? -2.4 : MV.riseH && !locked ? 2.4 : MV.plunge > 0 ? 1.1 : MV.inp ? 0.05 : 1.0;   // 唔按：慢慢浮上去；游緊：保持深度
+   PL.vy += (want - PL.vy) * (1 - Math.exp(-dt * (MV.plunge > 0 ? 2.2 : 4))); let h2 = hip + PL.vy * dt; if (h2 < floor) { h2 = floor; PL.vy = Math.max(0, PL.vy); }
+   const fh = floatHip(); if (h2 >= fh && PL.vy > -0.05) { if (!MV.diveH || STA.ex) { MV.mode = 'swim'; if (MV.diveT > 0.8) surfaceFx(); MV.entry = ''; MV.plunge = 0; } else h2 = fh; }
+   PL.y = h2 - Hh; } }
+ MV.jumpQ = MV.leapQ = MV.leapLate = false;
  // 體力：快跑、快游、潛水會用；停咗 0.7 秒先回復
  let drain = 0; if (MV.mode === 'land' && MV.spr && PL.spd > 5 && !PL.air) drain = 20; else if (MV.mode === 'swim' && MV.spr && PL.spd > 3) drain = 24; else if (MV.mode === 'dive') drain = 9 + (MV.spr ? 14 : 0);
  if (drain > 0 && !STA.ex) { STA.v -= drain * dt; STA.wait = 0.7; if (STA.v <= 0) { STA.v = 0; STA.ex = true; } }
  else { STA.wait -= dt; if (STA.wait <= 0) STA.v = Math.min(STA.max, STA.v + (MV.mode === 'land' ? 32 : 22) * dt); }
  if (STA.ex && STA.v >= STA.max) STA.ex = false;
- HAIRG.g = MV.mode === 'dive' ? -1.5 : MV.mode === 'swim' ? 3 : 9.8; HAIRG.damp = MV.mode === 'land' ? 0.93 : 0.82;   // 水入面頭髮會浮
+ const inW = MV.mode === 'swim' || MV.mode === 'dive', wetHair = MV.wet > 0.4 && MV.wetH > 1.6;
+ HAIRG.g = MV.mode === 'dive' ? -1.5 : MV.mode === 'swim' ? 3 : wetHair ? 13 : 9.8; HAIRG.damp = inW ? 0.82 : wetHair ? 0.88 : 0.93;   // 水入面頭髮會浮；濕頭髮重啲、少啲彈
+ // 濕身：水浸到邊度就濕到邊度（游水＝全身）；落雨慢慢濕；離開水 8 秒後開始乾，約 22 秒乾晒
+ const wl = MV.mode === 'land' ? (dep > 0 && !PL.air ? Math.min(2.6, dep + 0.06) : -1) : 2.6;
+ if (wl > 0) { MV.wetH = Math.max(MV.wetH, wl); MV.wet = 1; MV.dryT = 0; } else { MV.dryT += dt; if (MV.dryT > 8) { MV.wet = Math.max(0, MV.wet - dt / 22); if (MV.wet <= 0) MV.wetH = 0; } }
+ if (out && ENV.rain > 0.3) { MV.wetH = 2.6; MV.wet = Math.min(1, MV.wet + dt * 0.06 * ENV.rain); MV.dryT = 0; }
+ MV.drip = Math.max(0, MV.drip - dt * 0.32);
+ WETU.y.value = MV.mode === 'land' ? PL.y + MV.wetH : PL.y + 9; WETU.k.value = MV.wet;
 }
 
-// 游水姿勢：身打橫，手做蛙式（向前伸、向兩邊撥、收返），腳打直上下踢水。潛落時頭向下，上浮時頭向上
-function swimRig(U, dt) { const mv = PL.spd > 0.3 || MV.mode === 'dive' && Math.abs(PL.vy) > 0.4; MV.ph += dt * (mv ? 3.4 + PL.spd * 0.6 : 2.0);
- const ph = MV.ph, sw = 0.5 - 0.5 * Math.cos(ph), op = Math.pow(Math.sin(ph * 0.5), 2);
- if (U.arms.length === 2) U.arms.forEach(function (a, i) { const sd = i === 0 ? -1 : 1; a.rotation.x = -2.75 + 1.0 * sw; a.rotation.z = U.az[i] + sd * (0.12 + 0.95 * op); if (U.fore && U.fore[i]) U.fore[i].rotation.x = U.fb[i] - 0.1 - 1.1 * sw; });
- if (U.legs.length === 2) { const kk = mv ? 1 : 0.4; U.legs.forEach(function (l, i) { l.rotation.x = 0.12 + 0.32 * kk * Math.sin(ph * 2.2 + i * Math.PI); }); if (U.knees) U.knees.forEach(function (k, i) { k.rotation.x = 0.12 + 0.45 * kk * Math.max(0, Math.sin(ph * 2.2 + i * Math.PI + 1.2)); }); }   /* 腳打直、上下踢水 */
- if (U.head) U.head.rotation.x = MV.mode === 'swim' ? -0.75 : -0.45;
- const tilt = MV.mode === 'swim' ? 1.22 : PL.vy < -0.6 ? 1.95 : PL.vy > 0.8 ? 0.85 : 1.4; PL.swTilt = (PL.swTilt == null ? 0 : PL.swTilt) + (tilt - (PL.swTilt || 0)) * (1 - Math.exp(-dt * 5));
+// ---------- 上水、落水 ----------
+// 向前跳時：按跳嘅路線（同一個重力）逐步計，先落到碼頭／地面就唔係跳水；先到深水水面先係跳水
+function deepAhead() { if (AREA.id !== 'out' || PL.y < SEA_Y + 0.15) return false; let x = PL.x, z = PL.z, y = PL.y, vy = PL.vy; const sp = Math.max(PL.spd, 1);
+ for (let i = 0; i < 45; i++) { x += PL.dx * sp * 0.04; z += PL.dz * sp * 0.04; vy -= 21 * 0.04; y += vy * 0.04; if (vy > 0) continue; if (!swimBounds(x, z)) return false;
+  const g = groundH(x, z, y); if (y <= g) return false; if (y <= SEA_Y + 0.6 && g < SEA_Y && SEA_Y - terrH(x, z) > 1.9) return true; } return false; }
+function enterWater(dep) { const vy = PL.vy, fall = PL.air && vy < -3.2, deep = dep > 1.8; MV.diveT = 0; MV.gasp = 0;
+ if (MV.diveJ && deep) { MV.mode = 'dive'; MV.entry = 'head'; MV.plunge = 1.5; PL.vy = Math.max(-5.5, vy * 0.6); PL.spd = Math.max(2.6, PL.spd * 0.75); PL.swTilt = MV.dLean; MV.sw = Math.max(MV.sw, 0.85);
+  const s = Math.sin(MV.dLean) * 0.9, hx = PL.x + PL.dx * s, hz = PL.z + PL.dz * s; fxSplash(hx, hz, 0.8); ripple(hx, hz, 0.4, 2.8, 1.4); bubbleBurst(hx, SEA_Y - 0.4, hz, 12); }   /* 跳水：雙手先入水 */
+ else if (fall && deep) { MV.mode = 'dive'; MV.entry = 'feet'; MV.plunge = 1.3; PL.vy = Math.max(-4.5, vy * 0.5); PL.spd *= 0.4; PL.swTilt = 0.1; MV.sw = Math.max(MV.sw, 0.6);
+  fxSplash(PL.x, PL.z, Math.min(1.3, 0.5 - vy / 12)); ripple(PL.x, PL.z, 0.5, 3.0, 1.5); bubbleBurst(PL.x, SEA_Y - 0.5, PL.z, 14); }   /* 跌落水：腳先落，沉落去 */
+ else { MV.mode = 'swim'; MV.entry = 'wade'; PL.vy = 0; if (PL.swTilt == null) PL.swTilt = 0; fxSplash(PL.x + PL.dx * 0.35, PL.z + PL.dz * 0.35, PL.air ? 0.7 : 0.45); ripple(PL.x, PL.z, 0.5, 2.0, 1.2); }   /* 行落深水：向前撲出去游 */
+ PL.air = false; PL.land = 0; MV.leap = MV.diveJ = false;
+ if (!MV.hint) { MV.hint = true; toast(MOB ? '連按兩下並按住＝潛水' : '按住空白鍵＝潛水'); } }
+function exitWater() { MV.mode = 'land'; MV.exitT = 0; MV.entry = ''; MV.plunge = 0; PL.vy = 0; PL.air = false; wetAll(); ripple(PL.x, PL.z, 0.5, 1.7, 1.1); }
+function wetAll() { MV.drip = 1; MV.wet = 1; MV.wetH = Math.max(MV.wetH, 2.4); MV.dryT = 0; }
+function surfaceFx() { MV.gasp = 1.1; fxSplash(PL.x + PL.dx * 0.25, PL.z + PL.dz * 0.25, 0.32); ripple(PL.x, PL.z, 0.4, 1.9, 1.2); }   // 浮出水面：濺少少水、搖頭吸氣
+
+// ---------- 碼頭梯：游到梯前面推向梯，就爬上碼頭（約 2 秒）----------
+function nearLadder() { if (AREA.id !== 'out') return null; for (let i = 0; i < LADDERS.length; i++) { const L = LADDERS[i]; if (Math.hypot(PL.x - (L.x + L.nx * 0.45), PL.z - (L.z + L.nz * 0.45)) < 1.1) return L; } return null; }
+function startClimb(L) { MV.mode = 'climb'; MV.climb = { L:L, t:0, x0:PL.x, z0:PL.z, y0:PL.y, out:false }; PL.spd = 0; PL.vy = 0; MV.diveH = MV.riseH = false; }
+function climbStep(dt) { const C = MV.climb, L = C.L; C.t += dt; const t = C.t, fx = L.x + L.nx * 0.42, fz = L.z + L.nz * 0.42, yB = SEA_Y - 1.3, yT = L.top - 0.55;
+ if (t < 0.3) { const k = sstep(0, 0.3, t); PL.x = C.x0 + (fx - C.x0) * k; PL.z = C.z0 + (fz - C.z0) * k; PL.y = C.y0 + (yB - C.y0) * k; }   /* 埋梯、捉住 */
+ else if (t < 1.55) { PL.x = fx; PL.z = fz; PL.y = yB + (yT - yB) * (t - 0.3) / 1.25; if (!C.out && PL.y + PIVK * PL.S > SEA_Y + 0.2) { C.out = true; MV.drip = 1; ripple(fx, fz, 0.4, 1.6, 1.0); } }   /* 一級一級爬；身離開水面開始滴水 */
+ else if (t < 2.1) { const k = sstep(1.55, 2.1, t), tx = L.x - L.nx * 0.6, tz = L.z - L.nz * 0.6; PL.x = fx + (tx - fx) * k; PL.z = fz + (tz - fz) * k; PL.y = yT + (L.top - yT) * Math.sin(k * Math.PI / 2); }   /* 跨上碼頭 */
+ else { PL.x = L.x - L.nx * 0.6; PL.z = L.z - L.nz * 0.6; PL.y = L.top; MV.mode = 'land'; MV.entry = ''; MV.sw = 0; MV.climb = null; MV.exitT = 0.5; PL.air = false; wetAll(); return; }
+ PL.yaw = lerpAng(PL.yaw, Math.atan2(-L.nx, -L.nz), 1 - Math.exp(-dt * 12)); PL.dx = -L.nx; PL.dz = -L.nz; }
+function climbRig(U, dt) { const t = MV.climb ? MV.climb.t : 2.1, k = 1 - Math.exp(-dt * 14); let A, G;
+ if (t < 0.3) { A = [[-2.55, 0.28, 0.85], [-2.55, 0.28, 0.85]]; G = [[-0.8, 0.08, 1.2], [-0.8, 0.08, 1.2]]; }
+ else if (t < 1.55) { const s = Math.sin((t - 0.3) * Math.PI * 2.4);   // 左右手輪流捉高一級、腳輪流踩上
+  A = [[-2.55 - 0.35 * s, 0.25, 0.75 + 0.4 * s], [-2.55 + 0.35 * s, 0.25, 0.75 - 0.4 * s]]; G = [[-0.85 - 0.5 * s, 0.06, 1.25 + 0.45 * s], [-0.85 + 0.5 * s, 0.06, 1.25 - 0.45 * s]]; }
+ else { const q = sstep(1.55, 2.1, t);   // 雙手撐住碼頭面、一隻腳踏上去，然後企直
+  A = [[-0.9 + 0.9 * q, 0.2, 0.6 - 0.5 * q], [-0.9 + 0.9 * q, 0.2, 0.6 - 0.5 * q]]; G = [[-1.3 + 1.3 * q, 0.05, 1.6 - 1.55 * q], [-0.2 + 0.2 * q, 0.04, 0.6 - 0.55 * q]]; }
+ for (let i = 0; i < 2; i++) { const sd = i === 0 ? -1 : 1, a = U.arms[i], f = U.fore && U.fore[i], l = U.legs[i], n = U.knees && U.knees[i];
+  if (a) { a.rotation.x += (A[i][0] - a.rotation.x) * k; a.rotation.z += (U.az[i] + sd * A[i][1] - a.rotation.z) * k; } if (f) f.rotation.x += (U.fb[i] - A[i][2] - f.rotation.x) * k;
+  if (l) { l.rotation.x += (G[i][0] - l.rotation.x) * k; l.rotation.z += (sd * G[i][1] - l.rotation.z) * k; } if (n) n.rotation.x += (G[i][2] - n.rotation.x) * k; }
+ if (U.head) U.head.rotation.x += (-0.25 - U.head.rotation.x) * k;
+ const lean = t < 1.55 ? 0.1 : 0.1 + 0.4 * Math.sin(sstep(1.55, 2.1, t) * Math.PI); PL.swTilt = lean; return { lean:lean, drop:0, bounce:0 }; }
+
+// ---------- 主角姿勢：陸地（行、跳、涉水）同游水之間慢慢過渡 ----------
+const RIGB = new Float32Array(16);
+function rigSave(U) { let k = 0; for (let i = 0; i < 2; i++) { const a = U.arms[i], f = U.fore && U.fore[i], l = U.legs[i], n = U.knees && U.knees[i]; RIGB[k++] = a ? a.rotation.x : 0; RIGB[k++] = a ? a.rotation.z : 0; RIGB[k++] = f ? f.rotation.x : 0; RIGB[k++] = l ? l.rotation.x : 0; RIGB[k++] = l ? l.rotation.z : 0; RIGB[k++] = n ? n.rotation.x : 0; } RIGB[k] = U.head ? U.head.rotation.x : 0; }
+function rigMix(U, w) { let k = 0; const m = function (o, p, v) { if (o) o.rotation[p] += (v - o.rotation[p]) * w; };   // 而家嘅（游水）→ 存低嘅（陸地），w＝陸地比重
+ for (let i = 0; i < 2; i++) { const a = U.arms[i], f = U.fore && U.fore[i], l = U.legs[i], n = U.knees && U.knees[i]; m(a, 'x', RIGB[k++]); m(a, 'z', RIGB[k++]); m(f, 'x', RIGB[k++]); m(l, 'x', RIGB[k++]); m(l, 'z', RIGB[k++]); m(n, 'x', RIGB[k++]); } m(U.head, 'x', RIGB[k]); }
+function heroPose(U, dt) { MV.sw += ((MV.mode === 'land' ? 0 : 1) - MV.sw) * (1 - Math.exp(-dt * (MV.mode === 'land' ? 4.5 : 6.5)));   /* 入水約 0.45 秒、上岸約 0.65 秒 */
+ if (MV.mode === 'climb') return climbRig(U, dt);
+ let pl = null; if (MV.sw < 0.995) { pl = animRig(U, PL, PL.spd, dt, PL.fig.userData.noArm, PL.AS, true, PL); U.legs.forEach(function (l) { l.rotation.z = 0; }); pl = wadePose(U, dt, pl); pl = airPose(U, dt, pl); }
+ if (MV.sw <= 0.005) return pl; if (pl) rigSave(U); const ps = swimRig(U, dt); if (!pl) return ps;
+ const w = MV.sw; rigMix(U, 1 - w); return { lean:pl.lean + (ps.lean - pl.lean) * w, drop:pl.drop * (1 - w), bounce:pl.bounce * (1 - w) }; }
+
+// 涉水：膝頭深開始提高膝頭；大髀至腰深雙手舉起離開水面、向兩邊平衡，身向前推水；每步濺水、有水紋
+function wadePose(U, dt, pz) { const w0 = MV.mode === 'land' && AREA.id === 'out' ? Math.max(0, Math.min(1, MV.wade / 0.95)) : 0; MV.wk += (w0 - MV.wk) * (1 - Math.exp(-dt * 5)); const w = MV.wk; if (w < 0.01 || PL.air) return pz;
+ const mv = Math.min(1, PL.spd / 1.6), c = Math.cos(PL.phase), s = Math.sin(PL.phase), lift = sstep(0.12, 0.55, w) * mv;
+ if (U.legs.length === 2 && U.knees) { const a = Math.max(0, -c), b = Math.max(0, c); U.legs[0].rotation.x -= 0.5 * lift * a; U.knees[0].rotation.x += 0.75 * lift * a; U.legs[1].rotation.x -= 0.5 * lift * b; U.knees[1].rotation.x += 0.75 * lift * b; }
+ const ak = sstep(0.45, 0.95, w); if (ak > 0.01 && U.arms.length === 2) U.arms.forEach(function (a, i) { if (HOLD.id && i === 1) return; const sd = i === 0 ? -1 : 1, f = U.fore && U.fore[i]; a.rotation.x += (-0.45 - 0.18 * sd * s * mv - a.rotation.x) * ak; a.rotation.z += (U.az[i] + sd * 0.7 - a.rotation.z) * ak; if (f) f.rotation.x += (U.fb[i] - 0.8 - f.rotation.x) * ak; });
+ const st = Math.floor((PL.phase - Math.PI / 2) / Math.PI); if (st !== MV.stepN) { MV.stepN = st; if (PL.spd > 0.6 && MV.wade > 0.02 && MV.wade < 1.1) { const sd = st & 1 ? 1 : -1, fx = PL.x + PL.dx * 0.28 + PL.dz * 0.12 * sd, fz = PL.z + PL.dz * 0.28 - PL.dx * 0.12 * sd; fxSplash(fx, fz, 0.14 + 0.24 * Math.min(1, PL.spd / 5), 6); ripple(fx, fz, 0.25, 1.1, 0.9); } }   /* 每一步：濺水＋水紋 */
+ pz.lean += 0.15 * ak * mv + 0.05 * lift; pz.bounce *= 1 - 0.7 * w; pz.drop *= 1 - 0.4 * w; return pz; }
+
+// 半空：向前跳＝跨大步（前腳伸前、後腳屈後、手前後擺，落地前兩腳收埋）；跳水＝身體順住飛行方向轉、雙手伸直過頭、雙腳夾埋
+function airPose(U, dt, pz) { if (MV.mode !== 'land' || !PL.air || !(MV.leap || MV.diveJ)) return pz;
+ const w = Math.min(1, (PL.jumpT || 0) / 0.12), L = U.legs, K = U.knees, A = U.arms, F = U.fore, mix = function (o, p, v) { if (o) o.rotation[p] += (v - o.rotation[p]) * w; };
+ if (MV.diveJ) { const ang = Math.atan2(Math.max(0.5, PL.spd), PL.vy); MV.dLean += (ang - MV.dLean) * (1 - Math.exp(-dt * 6));   /* 0＝頭向上，π/2＝打橫，大過 π/2＝頭向下 */
+  A.forEach(function (a, i) { const sd = i === 0 ? -1 : 1; mix(a, 'x', -2.95); mix(a, 'z', U.az[i] - sd * 0.06); if (F && F[i]) mix(F[i], 'x', U.fb[i] - 0.02); });
+  L.forEach(function (l, i) { mix(l, 'x', 0.1); if (K && K[i]) mix(K[i], 'x', 0.06); }); if (U.head) U.head.rotation.x = 0.25 * w;   /* 頭夾喺兩隻手中間 */
+  pz.lean = MV.dLean; pz.drop = 0; pz.bounce = 0; return pz; }
+ const dn = sstep(0.5, -3.5, PL.vy), lx = [-0.95 + 0.35 * dn, 0.6 - 1.1 * dn], kx = [0.3 + 0.35 * dn, 1.05 - 0.4 * dn], ax = [0.55, -1.0];
+ L.forEach(function (l, i) { mix(l, 'x', lx[i]); if (K && K[i]) mix(K[i], 'x', kx[i]); });
+ A.forEach(function (a, i) { if (HOLD.id && i === 1) return; const sd = i === 0 ? -1 : 1; mix(a, 'x', ax[i] * (1 - 0.5 * dn)); mix(a, 'z', U.az[i] + sd * 0.25); if (F && F[i]) mix(F[i], 'x', U.fb[i] - 0.5); });
+ pz.lean = 0.22 * w; pz.drop = 0; return pz; }
+
+// 蛙式一個循環（u：0→1）：伸直滑行 → 雙手向外撥 → 收埋心口（屈手肘）→ 向前伸；腳：撥手時伸直 → 收腳（屈膝、膝頭分開）→ 向外向後撐水 → 夾埋滑行
+const BR_ARM = [[0, -2.85, 0.12, 0.05], [0.3, -2.2, 0.85, 0.3], [0.48, -1.6, 0.42, 1.45], [0.66, -2.85, 0.1, 0.2], [1, -2.85, 0.12, 0.05]];   // u, 膊頭 x, 向外, 手肘
+const BR_LEG = [[0, 0.1, 0.05, 0.08], [0.42, 0.1, 0.05, 0.12], [0.62, -0.7, 0.32, 1.8], [0.8, 0.02, 0.45, 0.3], [0.92, 0.1, 0.08, 0.08], [1, 0.1, 0.05, 0.08]];   // u, 大髀 x, 向外, 膝頭
+const SWA = [0, 0, 0], SWL = [0, 0, 0];
+function keyAt(K, u, o) { let i = 0; while (i < K.length - 2 && u > K[i + 1][0]) i++; const a = K[i], b = K[i + 1], t = Math.max(0, Math.min(1, (u - a[0]) / (b[0] - a[0]))), s = t * t * (3 - 2 * t); for (let j = 1; j < a.length; j++) o[j - 1] = a[j] + (b[j] - a[j]) * s; return o; }
+// 游水姿勢：水面停低企直踩水；游＝打橫蛙式；潛水按上落方向傾；跳水入水先伸直滑行；跌落水腳先落、手由頭頂向下撥浮返上
+function swimRig(U, dt) { const md = MV.mode, deepK = sstep(1.3, 1.8, MV.wade);   /* 淺水唔踩得水（腳會插落海床）*/
+ MV.tread += ((md === 'swim' && PL.spd < 0.45 ? deepK : 0) - MV.tread) * (1 - Math.exp(-dt * 2.6));
+ const glide = md === 'dive' && MV.entry === 'head' && MV.plunge > 0.6, rate = glide ? 0 : (md === 'dive' ? 0.7 : 0.8) + 0.45 * Math.min(1, PL.spd / 3), u0 = MV.ph;
+ MV.ph = (MV.ph + dt * rate) % 1; const u = MV.ph; keyAt(BR_ARM, u, SWA); keyAt(BR_LEG, u, SWL); if (md === 'swim') SWA[0] += 0.32;   /* 水面游身斜啲：手伸前要平過水面，唔好舉高出水 */
+ const tr = md === 'swim' ? MV.tread : 0, tt = NOWT * 2.6, wF = md === 'dive' && MV.entry === 'feet' ? sstep(0, 0.5, MV.plunge) : 0, wH = MV.entry === 'head' ? sstep(0.2, 0.9, MV.plunge) : 0;
+ for (let i = 0; i < 2; i++) { const sd = i === 0 ? -1 : 1, a = U.arms[i], f = U.fore && U.fore[i], l = U.legs[i], n = U.knees && U.knees[i], ph = i * Math.PI;
+  // 踩水：手喺身兩邊前後撥（掌心向下推水）、腳輪流好似踩單車
+  let ax = SWA[0] + (-0.55 - SWA[0]) * tr, az = SWA[1] + (0.85 + 0.22 * Math.sin(tt + ph) - SWA[1]) * tr, af = SWA[2] + (0.85 + 0.25 * Math.sin(tt + 1 + ph) - SWA[2]) * tr;
+  let lx = SWL[0] + (-0.7 + 0.35 * Math.sin(tt * 1.15 + ph) - SWL[0]) * tr, lz = SWL[1] + (0.22 - SWL[1]) * tr, lk = SWL[2] + (1.05 + 0.4 * Math.sin(tt * 1.15 + ph + 1.3) - SWL[2]) * tr;
+  if (wF > 0) { ax += (-2.9 + 2.3 * (1 - wF) - ax) * wF; az += (0.25 - az) * wF; af += (0.1 - af) * wF; lx += (0.05 + 0.25 * Math.sin(tt * 2.4 + ph) - lx) * wF; lz += (0.03 - lz) * wF; lk += (0.1 - lk) * wF; }   /* 腳先落水：手由頭頂向下撥 */
+  if (wH > 0) { ax += (-2.95 - ax) * wH; az += (0.02 - az) * wH; af += (0 - af) * wH; lx += (0.12 - lx) * wH; lz += (0 - lz) * wH; lk += (0.05 - lk) * wH; }   /* 跳水入水：伸直滑行 */
+  if (a) { a.rotation.x = ax; a.rotation.z = U.az[i] + sd * az; } if (f) f.rotation.x = U.fb[i] - af; if (l) { l.rotation.x = lx; l.rotation.z = sd * lz; } if (n) n.rotation.x = lk; }
+ // 傾斜：水面游斜住身（約 57 度，換氣時抬高少少，頭一直喺水面）；踩水企直；潛水按上落；鑽落水頭向下；腳先落水企直
+ let tilt; if (md === 'swim') tilt = (1.0 - 0.13 * Math.exp(-Math.pow((u - 0.5) / 0.12, 2))) * (1 - MV.tread) + 0.2 * MV.tread;
+ else if (md === 'dive') { tilt = PL.vy < -0.6 ? 1.95 : PL.vy > 0.35 ? 0.95 : 1.42; if (MV.entry === 'feet' && (MV.plunge > 0 || !MV.inp)) tilt = MV.plunge > 0 ? 0.12 : 0.3; else if (MV.entry === 'duck' && MV.diveT < 0.6) tilt = 2.25; }
+ else tilt = 0.2;   /* 上岸：企返直 */
+ PL.swTilt = (PL.swTilt == null ? tilt : PL.swTilt) + (tilt - PL.swTilt) * (1 - Math.exp(-dt * (wH > 0 ? 3 : 5)));
+ if (U.head) U.head.rotation.x = md === 'swim' ? -0.75 * (1 - MV.tread) - 0.05 : md === 'dive' ? (wH > 0 ? 0.2 : -0.45) : -0.2;
+ // 水紋：蛙式每一下撐水喺腳後面出；踩水間中喺身邊出
+ if (md === 'swim' && AREA.id === 'out') { if (MV.tread < 0.5 && u0 < 0.8 && u >= 0.8) ripple(PL.x - PL.dx * 0.9, PL.z - PL.dz * 0.9, 0.4, 1.8, 1.1); MV.rT -= dt; if (MV.tread > 0.5 && MV.rT <= 0) { MV.rT = 1.3; ripple(PL.x, PL.z, 0.5, 1.5, 1.2); } }
  return { lean:PL.swTilt, drop:0, bounce:0 }; }
 
-// ---------- 水花、泡泡、身邊白浪圈 ----------
-const FX = { splash:null, sp:[], bub:null, bp:[], ring:null };
+// ---------- 濕身：主角材質加「水位線以下深色、反光多啲」----------
+const WETU = { y:{ value:-99 }, k:{ value:0 } };
+function wetPatch(m) { if (!m || !m.isMeshStandardMaterial || m.userData.wetP) return; m.userData.wetP = true;
+ const prev = m.onBeforeCompile, key = (m.customProgramCacheKey ? m.customProgramCacheKey() : '') + '_wet';   // 先攞舊 key 先換
+ m.onBeforeCompile = function (sh, r) { if (prev) prev.call(this, sh, r); sh.uniforms.uWetY = WETU.y; sh.uniforms.uWetK = WETU.k;
+  sh.vertexShader = 'varying float vWetY;\n' + sh.vertexShader.replace('#include <project_vertex>', '#include <project_vertex>\nvWetY = (modelMatrix * vec4(transformed, 1.0)).y;');
+  sh.fragmentShader = 'uniform float uWetY;\nuniform float uWetK;\nvarying float vWetY;\n' + sh.fragmentShader.replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\n{ float wk = uWetK * (1.0 - smoothstep(uWetY - 0.04, uWetY + 0.04, vWetY)); float lu = dot(diffuseColor.rgb, vec3(0.299, 0.587, 0.114)); diffuseColor.rgb = mix(vec3(lu), diffuseColor.rgb, 1.0 + 0.25 * wk) * (1.0 - 0.42 * wk); totalEmissiveRadiance *= 1.0 - 0.5 * wk; roughnessFactor = mix(roughnessFactor, 0.25, 0.75 * wk); }'); };
+ m.customProgramCacheKey = function () { return key; }; m.needsUpdate = true; }
+function heroWet(g) { g.traverse(function (o) { if (o.isMesh) (Array.isArray(o.material) ? o.material : [o.material]).forEach(wetPatch); }); }
+
+// ---------- 水花、泡泡、水滴、水紋、身邊白浪圈 ----------
+const FX = { splash:null, sp:[], bub:null, bp:[], drip:null, dp:[], ring:null };
+const RIP = { im:null, a:[], M:new T.Matrix4(), Q:new T.Quaternion(), P:new T.Vector3(), S:new T.Vector3(), C:new T.Color() };
 function initWaterFx(sc) {
  const dot = new T.CanvasTexture(cvs(64, 64, function (x) { const g = x.createRadialGradient(32, 32, 0, 32, 32, 30); g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(0.55, 'rgba(235,250,255,0.75)'); g.addColorStop(1, 'rgba(235,250,255,0)'); x.fillStyle = g; x.fillRect(0, 0, 64, 64); }));
- const mk = function (n, size, op) { const g = new T.BufferGeometry(); g.setAttribute('position', new T.BufferAttribute(new Float32Array(n * 3).fill(-999), 3).setUsage(T.DynamicDrawUsage)); const p = new T.Points(g, new T.PointsMaterial({ size:size, map:dot, transparent:true, depthWrite:false, opacity:op, color:0xf2fbff, fog:true })); p.frustumCulled = false; p.renderOrder = 3; sc.add(p); return p; };
- FX.splash = mk(40, 0.22, 0.9); FX.bub = mk(28, 0.13, 0.8);
+ const mk = function (n, size, op) { const g = new T.BufferGeometry(); g.setAttribute('position', new T.BufferAttribute(new Float32Array(n * 3).fill(-999), 3).setUsage(T.DynamicDrawUsage)); const p = new T.Points(g, new T.PointsMaterial({ size:size, map:dot, transparent:true, depthWrite:false, opacity:op, color:0xf2fbff, fog:true })); p.frustumCulled = false; p.renderOrder = 3; p.visible = false; sc.add(p); return p; };
+ FX.splash = mk(48, 0.22, 0.9); FX.bub = mk(40, 0.13, 0.8); FX.drip = mk(48, 0.055, 0.85);
  const ringT = new T.CanvasTexture(cvs(128, 128, function (x) { const g = x.createRadialGradient(64, 64, 26, 64, 64, 62); g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(0.45, 'rgba(255,255,255,0.75)'); g.addColorStop(0.7, 'rgba(255,255,255,0.3)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, 128, 128); }));
- FX.ring = new T.Mesh(new T.PlaneGeometry(2.6, 2.6).rotateX(-Math.PI / 2), new T.MeshBasicMaterial({ map:ringT, transparent:true, depthWrite:false, opacity:0.6, fog:true })); FX.ring.renderOrder = 2; FX.ring.visible = false; sc.add(FX.ring); }
-function fxSplash(x, z, k) { for (let i = 0; i < 14; i++) { const a = Math.random() * 6.28, s = (1.2 + Math.random() * 2.2) * k; FX.sp.push({ x:x, y:SEA_Y + 0.05, z:z, vx:Math.cos(a) * s * 0.6, vy:2.5 + Math.random() * 3 * k, vz:Math.sin(a) * s * 0.6, t:0 }); } if (FX.sp.length > 40) FX.sp.splice(0, FX.sp.length - 40); }
+ FX.ring = new T.Mesh(new T.PlaneGeometry(2.6, 2.6).rotateX(-Math.PI / 2), new T.MeshBasicMaterial({ map:ringT, transparent:true, depthWrite:false, opacity:0.6, fog:true })); FX.ring.renderOrder = 2; FX.ring.visible = false; sc.add(FX.ring);
+ // 水紋：一圈幼線向外散開、慢慢淡出；全部用一個 InstancedMesh（一次 draw call）
+ const ripT = new T.CanvasTexture(cvs(128, 128, function (x) { const g = x.createRadialGradient(64, 64, 40, 64, 64, 63); g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(0.62, 'rgba(255,255,255,0.9)'); g.addColorStop(0.78, 'rgba(255,255,255,0.25)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, 128, 128); }));
+ const im = new T.InstancedMesh(new T.PlaneGeometry(1, 1).rotateX(-Math.PI / 2), new T.MeshBasicMaterial({ map:ripT, transparent:true, depthWrite:false, blending:T.AdditiveBlending, fog:true }), 14);
+ im.instanceMatrix.setUsage(T.DynamicDrawUsage); im.instanceColor = new T.InstancedBufferAttribute(new Float32Array(14 * 3), 3); im.frustumCulled = false; im.renderOrder = 2; im.count = 0; im.visible = false; sc.add(im); RIP.im = im; }
+function fxSplash(x, z, k, n) { n = n || 14; for (let i = 0; i < n; i++) { const a = Math.random() * 6.28, s = (1.2 + Math.random() * 2.2) * k; FX.sp.push({ x:x, y:SEA_Y + 0.05, z:z, vx:Math.cos(a) * s * 0.6, vy:2.5 + Math.random() * 3 * k, vz:Math.sin(a) * s * 0.6, t:0 }); } if (FX.sp.length > 48) FX.sp.splice(0, FX.sp.length - 48); }
+function bubbleBurst(x, y, z, n) { for (let i = 0; i < n; i++) FX.bp.push({ x:x + (Math.random() - 0.5) * 0.6, y:y - Math.random() * 0.7, z:z + (Math.random() - 0.5) * 0.6, t:0, w:Math.random() * 6 }); if (FX.bp.length > 40) FX.bp.splice(0, FX.bp.length - 40); }
+function ripple(x, z, s0, s1, life) { if (AREA.id !== 'out') return; RIP.a.push({ x:x, z:z, s0:s0, s1:s1, L:life || 1.1, t:0 }); if (RIP.a.length > 14) RIP.a.shift(); }
+function pts(P, list, n) { const at = P.geometry.attributes.position, a = at.array; for (let i = 0; i < n; i++) { const p = list[i]; a[i * 3] = p ? p.x : 0; a[i * 3 + 1] = p ? p.y : -999; a[i * 3 + 2] = p ? p.z : 0; } at.needsUpdate = true; }
 function updWaterFx(dt) { if (!FX.splash) return; const out = AREA.id === 'out';
- const sp = FX.splash.geometry.attributes.position, a = sp.array; FX.sp = FX.sp.filter(function (p) { p.t += dt; p.vy -= 12 * dt; p.x += p.vx * dt; p.y += p.vy * dt; p.z += p.vz * dt; return p.t < 1.2 && p.y > SEA_Y - 0.2; });
- for (let i = 0; i < 40; i++) { const p = FX.sp[i]; a[i * 3] = p ? p.x : 0; a[i * 3 + 1] = p ? p.y : -999; a[i * 3 + 2] = p ? p.z : 0; } sp.needsUpdate = true; FX.splash.visible = out && FX.sp.length > 0;
- // 潛水：由頭頂出泡泡，升上水面
- if (MV.mode === 'dive') { MV.bt -= dt; if (MV.bt <= 0) { MV.bt = 0.22 + Math.random() * 0.3; const hy = PL.y + PIVK * PL.S + 0.35; FX.bp.push({ x:PL.x + PL.dx * 0.5 + (Math.random() - 0.5) * 0.2, y:hy, z:PL.z + PL.dz * 0.5, t:0, w:Math.random() * 6 }); } }
- const bp = FX.bub.geometry.attributes.position, b = bp.array; FX.bp = FX.bp.filter(function (p) { p.t += dt; p.y += (0.9 + p.t * 0.3) * dt; p.x += Math.sin(p.t * 6 + p.w) * 0.15 * dt; return p.y < SEA_Y - 0.05 && p.t < 6; });
- for (let i = 0; i < 28; i++) { const p = FX.bp[i]; b[i * 3] = p ? p.x : 0; b[i * 3 + 1] = p ? p.y : -999; b[i * 3 + 2] = p ? p.z : 0; } bp.needsUpdate = true; FX.bub.visible = out && FX.bp.length > 0;
- // 水面游水時身邊白浪圈
- const on = out && MV.mode === 'swim'; FX.ring.visible = on; if (on) { FX.ring.position.set(PL.x + PL.dx * 0.35, SEA_Y + 0.02, PL.z + PL.dz * 0.35); const k = Math.min(1, PL.spd / 3); FX.ring.scale.setScalar(0.9 + 0.25 * Math.sin(NOWT * 3) * (1 - k) + 0.35 * k); FX.ring.material.opacity = 0.35 + 0.3 * k; } }
+ FX.sp = FX.sp.filter(function (p) { p.t += dt; p.vy -= 12 * dt; p.x += p.vx * dt; p.y += p.vy * dt; p.z += p.vz * dt; return p.t < 1.2 && p.y > SEA_Y - 0.2; });
+ if (FX.sp.length || FX.splash.visible) { pts(FX.splash, FX.sp, 48); FX.splash.visible = out && FX.sp.length > 0; }
+ // 潛水：由頭頂出泡泡，升上水面；啱啱跳落水嗰陣成串
+ if (MV.mode === 'dive') { MV.bt -= dt; if (MV.bt <= 0) { MV.bt = MV.plunge > 0.7 ? 0.05 : 0.22 + Math.random() * 0.3; const hy = PL.y + PIVK * PL.S + 0.35; FX.bp.push({ x:PL.x + PL.dx * 0.5 + (Math.random() - 0.5) * 0.2, y:hy, z:PL.z + PL.dz * 0.5, t:0, w:Math.random() * 6 }); if (FX.bp.length > 40) FX.bp.shift(); } }
+ FX.bp = FX.bp.filter(function (p) { p.t += dt; p.y += (0.9 + p.t * 0.3) * dt; p.x += Math.sin(p.t * 6 + p.w) * 0.15 * dt; return p.y < SEA_Y - 0.05 && p.t < 6; });
+ if (FX.bp.length || FX.bub.visible) { pts(FX.bub, FX.bp, 40); FX.bub.visible = out && FX.bp.length > 0; }
+ // 上岸後身上滴水（頭幾秒好多，之後間中一滴）
+ if (out && (MV.mode === 'land' || MV.mode === 'climb') && MV.wet > 0.05 && MV.wetH > 0.25) { MV.dAcc += (30 * MV.drip * MV.drip + (MV.wetH > 1.5 ? 1.2 : 0.4) * MV.wet) * dt;
+  while (MV.dAcc >= 1) { MV.dAcc -= 1; if (FX.dp.length >= 48) continue; const a = Math.random() * 6.28, r = 0.1 + Math.random() * 0.16, top = Math.min(MV.wetH, 1.75); FX.dp.push({ x:PL.x + Math.cos(a) * r, y:PL.y + 0.15 + Math.random() * Math.max(0.1, top - 0.15), z:PL.z + Math.sin(a) * r, vy:-0.2 - Math.random() * 0.6, t:0 }); } }
+ FX.dp = FX.dp.filter(function (p) { p.t += dt; p.vy -= 9.8 * dt; p.y += p.vy * dt; return p.t < 1.4 && p.y > Math.max(SEA_Y, groundH(p.x, p.z, p.y + 0.3)); });
+ if (FX.dp.length || FX.drip.visible) { pts(FX.drip, FX.dp, 48); FX.drip.visible = out && FX.dp.length > 0; }
+ // 水紋
+ RIP.a = RIP.a.filter(function (r) { r.t += dt; return r.t < r.L; }); const im = RIP.im, n = out ? RIP.a.length : 0;
+ if (n || im.visible) { for (let i = 0; i < n; i++) { const r = RIP.a[i], k = r.t / r.L, e = 1 - Math.pow(1 - k, 2.2), s = r.s0 + (r.s1 - r.s0) * e, al = Math.pow(1 - k, 1.6) * 0.5; RIP.M.compose(RIP.P.set(r.x, SEA_Y + 0.012, r.z), RIP.Q, RIP.S.set(s, 1, s)); im.setMatrixAt(i, RIP.M); im.setColorAt(i, RIP.C.setRGB(al * 0.92, al * 0.97, al)); }
+  im.count = n; im.instanceMatrix.needsUpdate = true; if (im.instanceColor) im.instanceColor.needsUpdate = true; im.visible = n > 0; }
+ // 白浪圈：水面游水喺身邊；涉水喺腳邊（細啲）
+ const sw = out && MV.mode === 'swim', wd = out && MV.mode === 'land' && !PL.air && MV.wade > 0.08 && MV.wade < 1.2; FX.ring.visible = sw || wd;
+ if (sw) { FX.ring.position.set(PL.x + PL.dx * 0.35, SEA_Y + 0.02, PL.z + PL.dz * 0.35); const k = Math.min(1, PL.spd / 3); FX.ring.scale.setScalar(0.9 + 0.25 * Math.sin(NOWT * 3) * (1 - k) + 0.35 * k); FX.ring.material.opacity = 0.24 + 0.24 * k; }
+ else if (wd) { FX.ring.position.set(PL.x + PL.dx * 0.12, SEA_Y + 0.02, PL.z + PL.dz * 0.12); const k = Math.min(1, PL.spd / 4); FX.ring.scale.setScalar(0.38 + 0.12 * Math.min(1, MV.wade) + 0.18 * k + 0.04 * Math.sin(NOWT * 3)); FX.ring.material.opacity = 0.28 + 0.3 * k; } }
 
 // ---------- 體力圈（喺主角右上方；用緊或者未滿先出）----------
 function updStaUI(dt) { const el = $('sta'); if (!el) return; const full = STA.v >= STA.max - 0.01;
  STA.show = full && !STA.ex ? Math.max(0, STA.show - dt) : 1.4; const vis = STA.show > 0 && AREA.id !== '' && $('help').hidden;
  if (el.hidden === vis) el.hidden = !vis; if (!vis) return;
- V.set(PL.x, MV.mode === 'land' ? PL.y + 1.5 : PL.y + PIVK * PL.S + 0.35, PL.z).project(cam);   /* 頭旁邊 */
+ V.set(PL.x, MV.mode === 'land' || MV.mode === 'climb' ? PL.y + 1.5 : PL.y + PIVK * PL.S + 0.35, PL.z).project(cam);   /* 頭旁邊 */
  el.style.transform = 'translate(' + ((V.x + 1) / 2 * innerWidth + 52).toFixed(1) + 'px,' + ((1 - V.y) / 2 * innerHeight).toFixed(1) + 'px) translate(-50%,-50%)';
  el.style.opacity = Math.min(1, STA.show / 0.5).toFixed(2); const f = STA.v / STA.max, C = 2 * Math.PI * 15;
  const fg = el.querySelector('.fg'); fg.setAttribute('stroke-dasharray', (C * f).toFixed(2) + ' ' + C.toFixed(2)); el.classList.toggle('ex', STA.ex); el.classList.toggle('low', !STA.ex && f < 0.3); }
@@ -2772,17 +2923,8 @@ const UWC = { fog:new T.Color(0x14657a), clear:new T.Color(0x14657a) };
 function updUnder() { const under = AREA.id === 'out' && cam.position.y < SEA_Y - 0.02; if (under !== MV.under) { MV.under = under; if (SKYG) SKYG.visible = !under; [GF.mesh, OUT.tufts, FLW.im].forEach(function (m) { if (m) m.visible = !under; }); }   /* 水底：陸地嘅草、花睇唔到，唔畫 */
  POST.under = under ? 1 : 0; return under; }
 
-// ---------- 按掣（跳／潛水、上浮）----------
-function setupMoveButtons() { const bJ = $('bJump'), bR = $('bRise');
- const hold = function (el, down, up) { el.addEventListener('pointerdown', function (e) { e.preventDefault(); e.stopPropagation(); try { el.setPointerCapture(e.pointerId); } catch (_) {} down(); });
-  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(function (k) { el.addEventListener(k, function (e) { e.preventDefault(); up(); }); }); };
- hold(bJ, function () { if (MV.mode === 'land') MV.jumpQ = true; else MV.diveH = true; }, function () { MV.diveH = false; });
- hold(bR, function () { MV.riseH = true; }, function () { MV.riseH = false; }); }
-function updMoveButtons() { const lbl = MV.mode === 'land' ? '跳' : '潛水', j = $('jLbl'); if (j.textContent !== lbl) j.textContent = lbl; const r = $('bRise'), rv = MV.mode === 'dive'; if (r.hidden === rv) r.hidden = !rv;
- const bj = $('bJump'), off = AREA.id !== 'out' && MV.mode !== 'land' ? true : false; if (bj.classList.contains('off') !== off) bj.classList.toggle('off', off); }
-
 // ===== items.js =====
-// ===== 背包同物品（2026-10-08）：背包、拎喺手、拋（第一身瞄準）、給、用、撿起 =====
+// ===== 背包同物品（2026-10-07）：背包、拎喺手、拋（第一身瞄準）、給、用、撿起 =====
 // 物品：小花（採花得，四隻色）、蘋果（開始有 3 個）、貝殼（沙灘、海床撿）、海星（海床撿）。背包未存檔（重新整理會無咗）
 // 介面文字用書面語；居民嘅回應係暫用對白（廣東話），同其他居民一樣
 
@@ -2792,7 +2934,7 @@ const ITEMS = {
 const ITEM_ORDER = ['apple', 'flower_w', 'flower_y', 'flower_p', 'flower_v', 'shell', 'starfish'];
 const INV = { apple:3 };
 const HOLD = { id:null, g:null, vm:null };     // g：手上嘅模型；vm：第一身時鏡頭前面嗰個
-const AIM = { on:false, yaw:0, pitch:0.05, t:0, thrown:false, down:null };
+const AIM = { on:false, yaw:0, pitch:0.05, t:0, thrown:false, nx:0, ny:0, ptr:null };   // nx／ny：準星喺畫面嘅位置（-1～1）；ptr：按住緊嘅手指
 const BAG = { open:false };
 const PICK = [], FLY = [];                      // PICK：地上（或者水面、海床）撿得嘅物品；FLY：拋緊喺半空嘅
 
@@ -2837,7 +2979,7 @@ function renderBag() { const g = $('bagG'); g.innerHTML = ''; const ids = ITEM_O
 // ---------- 拎喺手 ----------
 function holdItem(id) { putAway(); if (!INV[id]) return; HOLD.id = id; const hg = PL.fig && PL.fig.userData.holdG; const m = itemMesh(id); HOLD.g = m;
  if (hg) { hg.add(m); hg.updateMatrixWorld(true); const ws = new T.Vector3(); hg.getWorldScale(ws); m.scale.multiplyScalar(1 / ws.x); }
- $('holdN').textContent = ITEMS[id].nm + '（' + INV[id] + '）'; $('hold').hidden = false; }
+ $('holdN').textContent = ITEMS[id].nm + '（' + INV[id] + '）'; $('holdI').src = itemIcon(id); $('hold').hidden = false; }
 function putAway() { if (HOLD.g && HOLD.g.parent) HOLD.g.parent.remove(HOLD.g); HOLD.g = null; HOLD.id = null; $('hold').hidden = true; }
 // 手嘅姿勢：右手前臂屈起，拎住件嘢喺身前（行路時都係咁）
 function holdPose(U) { if (!HOLD.id || !U || U.arms.length !== 2 || AIM.on) return; const a = U.arms[1], f = U.fore && U.fore[1]; a.rotation.x = -0.42; a.rotation.z = U.az[1] - 0.12; if (f) f.rotation.x = U.fb[1] - 1.25; }
@@ -2852,7 +2994,7 @@ function useItem() { const id = HOLD.id; if (!id) return; const D = ITEMS[id];
 function wearOnHead(id) { const fig = PL.fig, U = fig && fig.userData.rig, head = U && U.head; if (!head) return; if (fig.userData.wear) { head.remove(fig.userData.wear.g); invAdd(fig.userData.wear.id); }
  const m = itemMesh(id); head.add(m); head.updateMatrixWorld(true); const ws = new T.Vector3(); head.getWorldScale(ws); m.scale.multiplyScalar(1.5 / ws.x);   /* 頭飾大啲，遊戲鏡頭距離都睇到 */
  const hp = fig.userData.headPin || [0.045, 0.075, 0.01]; m.position.set(hp[0], hp[1], hp[2]); m.rotation.set(0.15, 0.3, -1.15);   /* 花面向側邊 */ fig.userData.wear = { id:id, g:m }; }
-function refreshHold() { if (HOLD.id && INV[HOLD.id]) $('holdN').textContent = ITEMS[HOLD.id].nm + '（' + INV[HOLD.id] + '）'; else putAway(); }
+function refreshHold() { if (HOLD.id && INV[HOLD.id]) { $('holdN').textContent = ITEMS[HOLD.id].nm + '（' + INV[HOLD.id] + '）'; if (!AIM.on) $('hold').hidden = false; } else putAway(); }   /* 拋完仲有：選單出返 */
 
 // ---------- 給：附近 3.2 米內嘅居民 ----------
 const GIVE_SAY = { flower:['好靚嘅花！多謝你！', '送畀我？好開心呀！'], apple:['嘩，蘋果！多謝！', '啱啱肚餓，多謝你！'], shell:['好靚嘅貝殼，多謝！', '我會擺喺屋企窗邊！'], star:['海星！好得意，多謝！', '你喺海底搵到㗎？多謝！'] };
@@ -2863,22 +3005,48 @@ function npcSay(n, txt, dur) { n.el.textContent = txt; n.sayT = dur || 3; n.el.c
 function updNpcSay(dt) { curNPCs().forEach(function (n) { if (n.sayT > 0) { n.sayT -= dt; if (n.sayT <= 0) { n.el.textContent = n.bubble; n.el.classList.remove('say'); } }
   if (n.hop > 0) { n.hop = Math.max(0, n.hop - dt); n.fig.position.y = Math.sin((0.5 - n.hop) / 0.5 * Math.PI) * 0.35; } else if (n.fig.position.y) n.fig.position.y = 0; }); }
 
-// ---------- 拋：第一身、準星、撳就拋 ----------
+// ---------- 拋：第一身、準星；按住畫面空白位置拖動＝移動準星，放手＝拋出（2026-10-07 改）----------
+const AIMK = { m:null, arc:null, p:new T.Vector3(), q:new T.Vector3(), h:new T.Vector3(), v:new T.Vector3(), r:new T.Vector3(), U:new T.Vector3(0, 1, 0) };   // m：落點圈；arc：拋物線預覽（虛線點）
 function startAim() { if (!HOLD.id || MV.mode !== 'land' || AREA.id !== 'out') { if (MV.mode !== 'land') toast('在水中不能拋東西。'); else if (AREA.id !== 'out') toast('在屋內不能拋東西。'); return; }
- AIM.on = true; AIM.thrown = false; AIM.t = 0; AIM.yaw = PL.yaw; AIM.pitch = 0.08; PL.fig.visible = false; $('aimUI').hidden = false; $('hold').hidden = true; $('acts').hidden = true;
+ toastT = 0; $('toast').hidden = true; AIM.on = true; AIM.thrown = false; AIM.t = 0; AIM.yaw = PL.yaw; AIM.pitch = 0.08; AIM.nx = 0; AIM.ny = -0.12; AIM.ptr = null; PL.fig.visible = false; $('aimUI').hidden = false; $('hold').hidden = true; $('acts').hidden = true; $('xhair').classList.remove('hold', 'npc');
+ if (!AIMK.m) { AIMK.m = new T.Mesh(new T.RingGeometry(0.2, 0.3, 28).rotateX(-Math.PI / 2), new T.MeshBasicMaterial({ color:0xffd34d, transparent:true, opacity:0.9, depthWrite:false, fog:false })); AIMK.m.renderOrder = 8; AIMK.m.visible = false; OUT.sc.add(AIMK.m);   /* 落點記號 */
+  const g = new T.BufferGeometry(); g.setAttribute('position', new T.BufferAttribute(new Float32Array(18 * 3), 3).setUsage(T.DynamicDrawUsage)); const dt = new T.CanvasTexture(cvs(32, 32, function (x) { x.fillStyle = 'rgba(40,25,10,0.85)'; x.beginPath(); x.arc(16, 16, 15, 0, 7); x.fill(); x.fillStyle = '#fff6dc'; x.beginPath(); x.arc(16, 16, 9.5, 0, 7); x.fill(); }));   /* 白點深色邊：淺色地面、石牆都睇到 */
+  AIMK.arc = new T.Points(g, new T.PointsMaterial({ map:dt, size:10, sizeAttenuation:false, transparent:true, alphaTest:0.05, depthWrite:false, fog:false })); AIMK.arc.frustumCulled = false; AIMK.arc.renderOrder = 8; AIMK.arc.visible = false; OUT.sc.add(AIMK.arc); }   /* 拋物線預覽 */
  HOLD.vm = itemMesh(HOLD.id); HOLD.vm.scale.setScalar(0.55); HOLD.vm.traverse(function (o) { if (o.isMesh) { o.castShadow = false; o.renderOrder = 9; } }); OUT.sc.add(HOLD.vm); }
-function endAim() { AIM.on = false; PL.fig.visible = true; $('aimUI').hidden = true; $('acts').hidden = false; if (HOLD.vm) { OUT.sc.remove(HOLD.vm); HOLD.vm = null; } CAMS.yaw = PL.yaw + Math.PI; CAMS.manualT = -9; CAMS.d2 = null; refreshHold(); }
-function aimDrag(dx, dy) { AIM.yaw -= dx * 0.0052; AIM.pitch = Math.max(-0.75, Math.min(0.95, AIM.pitch - dy * 0.0042)); PL.yaw = AIM.yaw; }
-function aimCam() { const eh = PL.y + 1.72 * PL.S / 1.95, cp = Math.cos(AIM.pitch), dir = new T.Vector3(Math.sin(AIM.yaw) * cp, Math.sin(AIM.pitch), Math.cos(AIM.yaw) * cp);
+function endAim() { AIM.on = false; AIM.ptr = null; PL.fig.visible = true; $('aimUI').hidden = true; $('acts').hidden = false; if (AIMK.m) AIMK.m.visible = AIMK.arc.visible = false; if (HOLD.vm) { OUT.sc.remove(HOLD.vm); HOLD.vm = null; } CAMS.yaw = PL.yaw + Math.PI; CAMS.manualT = -9; CAMS.d2 = null; refreshHold(); }
+function aimPress(id) { AIM.ptr = id; $('xhair').classList.add('hold'); }
+function aimMove(dx, dy) { if (AIM.thrown) return; const g = 1.25; AIM.nx = Math.max(-0.9, Math.min(0.9, AIM.nx + dx * g / (innerWidth / 2))); AIM.ny = Math.max(-0.85, Math.min(0.85, AIM.ny - dy * g / (innerHeight / 2))); }   /* 手指郁幾多、準星郁幾多（少少放大），手指唔會遮住準星 */
+function aimRelease(ok) { AIM.ptr = null; $('xhair').classList.remove('hold'); if (ok) aimThrow(); }
+// 準星對住嘅地面（地形、水面、碼頭面；用高度圖逐步行，唔使撞模型，平）
+function aimGroundHit() { RC.setFromCamera({ x:AIM.nx, y:AIM.ny }, cam); const o = RC.ray.origin, d = RC.ray.direction, hitAt = function (t) { const x = o.x + d.x * t, z = o.z + d.z * t, th = terrH(x, z); return o.y + d.y * t <= Math.max(groundH(x, z, o.y + d.y * t), th < SEA_Y ? SEA_Y : th); };
+ let a = 0, b = -1; for (let t = 0.5; t < 42; t += 0.5) { if (hitAt(t)) { b = t; break; } a = t; } if (b < 0) return null; for (let i = 0; i < 5; i++) { const m = (a + b) / 2; if (hitAt(m)) b = m; else a = m; }
+ return AIMK.p.copy(o).addScaledVector(d, b); }
+// 出手位（鏡頭前右下）同初速：按目標距離計飛行時間（0.35–1.3 秒），重力 16；預覽同真係拋用同一條
+function aimLaunch(dir, target, v) { AIMK.r.crossVectors(dir, AIMK.U).normalize(); AIMK.h.copy(cam.position).addScaledVector(dir, 0.45).addScaledVector(AIMK.r, 0.2); AIMK.h.y -= 0.18;
+ const Tt = Math.max(0.35, Math.min(1.3, 0.3 + target.distanceTo(AIMK.h) * 0.035)); v.subVectors(target, AIMK.h).divideScalar(Tt); v.y += 0.5 * 16 * Tt; return Tt; }
+function aimCam(dt) { dt = dt || 0;
+ if (!AIM.thrown) { let kx = 0, ky = 0; if (KEY.KeyA || KEY.ArrowLeft) kx -= 1; if (KEY.KeyD || KEY.ArrowRight) kx += 1; if (KEY.KeyW || KEY.ArrowUp) ky += 1; if (KEY.KeyS || KEY.ArrowDown) ky -= 1;   // 電腦：方向鍵移動準星
+  AIM.nx = Math.max(-0.9, Math.min(0.9, AIM.nx + kx * dt * 1.1)); AIM.ny = Math.max(-0.85, Math.min(0.85, AIM.ny + ky * dt * 1.1));
+  const ex = Math.max(0, Math.abs(AIM.nx) - 0.6) / 0.3, ey = Math.max(0, Math.abs(AIM.ny) - 0.55) / 0.3;   // 準星推到畫面邊：鏡頭跟住轉
+  if (ex > 0) AIM.yaw -= Math.sign(AIM.nx) * ex * 1.6 * dt; if (ey > 0) AIM.pitch = Math.max(-0.75, Math.min(0.95, AIM.pitch + Math.sign(AIM.ny) * ey * 1.1 * dt)); PL.yaw = AIM.yaw; }
+ const eh = PL.y + 1.72 * PL.S / 1.95, cp = Math.cos(AIM.pitch), dir = new T.Vector3(Math.sin(AIM.yaw) * cp, Math.sin(AIM.pitch), Math.cos(AIM.yaw) * cp);
  cam.position.set(PL.x + dir.x * 0.25, eh, PL.z + dir.z * 0.25); cam.lookAt(cam.position.x + dir.x * 10, cam.position.y + dir.y * 10, cam.position.z + dir.z * 10); cam.updateMatrixWorld();
  if (HOLD.vm) { if (AIM.thrown) HOLD.vm.visible = false; else { const k = Math.min(1, AIM.t / 0.25); HOLD.vm.position.set(0.2, -0.17 - 0.08 * (1 - k), -0.42).applyMatrix4(cam.matrixWorld); HOLD.vm.quaternion.copy(cam.quaternion); HOLD.vm.rotateX(0.5); HOLD.vm.rotateZ(-0.25); } }
+ const xh = $('xhair'); xh.style.transform = 'translate(' + (AIM.nx * innerWidth / 2).toFixed(1) + 'px,' + (-AIM.ny * innerHeight / 2).toFixed(1) + 'px)';
+ // 準星對住居民就變橙色（會掟中佢），拋物線對住佢個頭；否則對住地面（落點黃圈）。拋物線預覽：由手到目標一串點
+ if (AIMK.m) { let tgt = null, npc = false; if (!AIM.thrown) { const W = innerWidth, H = innerHeight, sx = (AIM.nx + 1) / 2 * W, sy = (1 - AIM.ny) / 2 * H;
+   OUT.npcs.forEach(function (n) { if (npc) return; const P = n.root.position; if (Math.hypot(P.x - PL.x, P.z - PL.z) > 40) return; V.set(P.x, P.y + n.headH * 0.6, P.z).project(cam); if (V.z < 1 && Math.hypot((V.x + 1) / 2 * W - sx, (1 - V.y) / 2 * H - sy) < 44) { npc = true; tgt = AIMK.q.set(P.x, P.y + n.headH * 0.6, P.z); } });
+   if (xh.classList.contains('npc') !== npc) xh.classList.toggle('npc', npc); const gp = aimGroundHit(); if (!tgt) tgt = gp; else RC.setFromCamera({ x:AIM.nx, y:AIM.ny }, cam); }
+  AIMK.m.visible = !!tgt && !npc; if (AIMK.m.visible) { AIMK.m.position.set(tgt.x, tgt.y + 0.06, tgt.z); AIMK.m.scale.setScalar(1 + 0.08 * Math.sin(NOWT * 6)); }
+  AIMK.arc.visible = !!tgt; if (tgt) { const Tt = aimLaunch(RC.ray.direction, tgt, AIMK.v), a = AIMK.arc.geometry.attributes.position, h = AIMK.h, v = AIMK.v;
+   for (let i = 0; i < 18; i++) { const t = Tt * (i + 2) / 19; a.setXYZ(i, h.x + v.x * t, h.y + v.y * t - 8 * t * t, h.z + v.z * t); } a.needsUpdate = true; } }
  if (SKYG) SKYG.position.set(cam.position.x, 0, cam.position.z); return dir; }
 const RC = new T.Raycaster();
 function aimThrow() { if (!AIM.on || AIM.thrown || !HOLD.id) return; const id = HOLD.id; if (!invTake(id)) return; AIM.thrown = true; AIM.t = 0;
- cam.updateMatrixWorld(); RC.setFromCamera({ x:0, y:0 }, cam); RC.far = 42; const tg = [WD.groundMesh, WD.seabedMesh, OUT.seaMesh, OUT.bg].concat(Object.keys(VIL.mesh).map(function (k) { return VIL.mesh[k]; })).concat(OUT.npcs.map(function (n) { return n.root; })).filter(Boolean);
- const hit = RC.intersectObjects(tg, true)[0], dir = RC.ray.direction.clone(), right = new T.Vector3().crossVectors(dir, new T.Vector3(0, 1, 0)).normalize();
- const p = cam.position.clone().addScaledVector(dir, 0.45).addScaledVector(right, 0.2).add(new T.Vector3(0, -0.18, 0)), G = 16, v = new T.Vector3();
- if (hit) { const d = hit.point.distanceTo(p), Tt = Math.max(0.35, Math.min(1.3, 0.3 + d * 0.035)); v.subVectors(hit.point, p).divideScalar(Tt); v.y += 0.5 * G * Tt; } else v.copy(dir).multiplyScalar(16).add(new T.Vector3(0, 2.5, 0));
+ cam.updateMatrixWorld(); RC.setFromCamera({ x:AIM.nx, y:AIM.ny }, cam); RC.far = 42; if (AIMK.m) AIMK.m.visible = false; const tg = [WD.groundMesh, WD.seabedMesh, OUT.seaMesh, OUT.bg].concat(Object.keys(VIL.mesh).map(function (k) { return VIL.mesh[k]; })).concat(OUT.npcs.map(function (n) { return n.root; })).filter(Boolean);
+ const hit = RC.intersectObjects(tg, true)[0], dir = RC.ray.direction.clone(), v = new T.Vector3(); if (AIMK.arc) AIMK.arc.visible = false;
+ if (hit) aimLaunch(dir, hit.point, v); else { aimLaunch(dir, AIMK.q.copy(cam.position).addScaledVector(dir, 20), v); v.copy(dir).multiplyScalar(16).add(new T.Vector3(0, 2.5, 0)); }
+ const p = AIMK.h.clone();
  const m = itemMesh(id); m.position.copy(p); OUT.sc.add(m); FLY.push({ id:id, m:m, v:v, spin:new T.Vector3(Math.random() * 8 - 4, Math.random() * 8 - 4, Math.random() * 8 - 4), hitNpc:false });
  if (!INV[id]) HOLD.id = null; }
 function updItems(dt) {
@@ -2906,7 +3074,8 @@ function seedPicks() { const r = rng(WD.L.seed * 71 + 5); let n = 0; for (let t 
 
 // ---------- 按掣 ----------
 function setupItemUI() { const b = function (id, fn) { $(id).addEventListener('pointerdown', function (e) { e.preventDefault(); e.stopPropagation(); fn(); }); };
- b('bBag', function () { if (BAG.open) closeBag(); else openBag(); }); b('bagX', closeBag); b('hThrow', startAim); b('hGive', giveItem); b('hUse', useItem); b('hPut', putAway); b('aThrow', aimThrow); b('aCancel', endAim); }
+ b('bBag', function () { if (BAG.open) closeBag(); else openBag(); }); b('bagX', closeBag); b('hThrow', startAim); b('hGive', giveItem); b('hUse', useItem); b('hPut', putAway); b('aCancel', endAim);
+ ['hThrow', 'hGive', 'hUse', 'hPut'].forEach(function (id) { $(id).addEventListener('keydown', function (e) { if (e.code === 'Enter' || e.code === 'Space') { e.preventDefault(); e.stopPropagation(); $(id).dispatchEvent(new PointerEvent('pointerdown', { bubbles:true })); } }); }); }   /* 六角形選單：鍵盤都揀得 */
 
 // ===== game.js =====
 // ================= game.js：主程式（鏡頭、行路、碰撞、表情、對話沿用市集漫遊原型；加咗島嶼、入屋、地圖）=================
@@ -2943,7 +3112,7 @@ function addPlatRot(x, z, hx, hz, rot, top) { PLAT.push({ x:x, z:z, hx:hx, hz:hz
 function platAt(x, z, y) { let h = -1e9; for (let i = 0; i < PLAT.length; i++) { const p = PLAT[i], L = toLocal(p, x, z); if (Math.abs(L[0]) <= p.hx + 0.05 && Math.abs(L[1]) <= p.hz + 0.05 && y >= p.top - 0.65 && p.top > h) h = p.top; } return h; }
 function inWalk(x, z) { for (let i = 0; i < WALK.length; i++) { const w = WALK[i], L = toLocal(w, x, z); if (Math.abs(L[0]) <= w.hx && Math.abs(L[1]) <= w.hz) return true; } return false; }
 function groundH(x, z, y) { const t = AREA.id === 'out' ? terrH(x, z) : 0, p = platAt(x, z, y == null ? 99 : y); return Math.max(t, p); }
-function walkable(x, z) { if (AREA.id !== 'out') return true; return swimBounds(x, z); }   /* 2026-10-08 起落得水游（離岸 40 米內） */
+function walkable(x, z) { if (AREA.id !== 'out') return true; return swimBounds(x, z); }   /* 2026-10-07 起落得水游（離岸 40 米內） */
 
 // ---------- 合併幾何（同一款材質合成一個 draw call；手腳頭獨立分件）----------
 function matKey(m) { return [m.type, m.color ? m.color.getHexString() : '', m.map ? m.map.uuid : '', m.normalMap ? m.normalMap.uuid : '', m.roughness, m.metalness, m.side, m.transparent, m.opacity, m.emissive ? m.emissive.getHexString() : '', m.emissiveIntensity, m.vertexColors, m.alphaTest, m.polygonOffset, (m.isShaderMaterial || m.userData.solo) ? m.uuid : ''].join('|'); }
@@ -3033,7 +3202,7 @@ function fadeTo(fn) { if (AREA.fading) return; AREA.fading = true; $('fade').cla
 function enterRoom(k) { const d = WD.doors[k]; if (!d || !d.room) return; closeDlg();
  fadeTo(function () { AREA.from = k; useArea(d.room); const R = AREA.R; PL.root.parent && PL.root.parent.remove(PL.root); R.sc.add(PL.root); placePlayer(R.spawn[0], R.spawn[1], R.spawn[2]); applyView(); setPlace(R.name); }); }
 function exitRoom() { const k = AREA.from, d = WD.doors[k]; fadeTo(function () { useArea('out'); PL.root.parent && PL.root.parent.remove(PL.root); OUT.sc.add(PL.root); placePlayer(d.x, d.z + 1.4, 0); applyView(); setPlace(d.name); }); }
-function placePlayer(x, z, yaw) { MV.mode = 'land'; PL.air = false; PL.vy = 0; PL.land = 0; PL.x = x; PL.z = z; PL.y = groundH(x, z); PL.yaw = yaw; PL.spd = 0; PL.dx = Math.sin(yaw); PL.dz = Math.cos(yaw); PL.root.position.set(x, PL.y, z); PL.root.rotation.y = yaw; CAMS.yaw = yaw + Math.PI; CAMS.init = false; CAMS.d2 = null; PL.cy = PL.y; updCam(0); }
+function placePlayer(x, z, yaw) { resetMove(); PL.air = false; PL.vy = 0; PL.land = 0; PL.x = x; PL.z = z; PL.y = groundH(x, z); PL.yaw = yaw; PL.spd = 0; PL.dx = Math.sin(yaw); PL.dz = Math.cos(yaw); PL.root.position.set(x, PL.y, z); PL.root.rotation.y = yaw; CAMS.yaw = yaw + Math.PI; CAMS.init = false; CAMS.d2 = null; PL.cy = PL.y; updCam(0); }
 let placeTxt = ''; function setPlace(t) { if (AREA.id === 'out') t += '　' + envLabel(); if (t !== placeTxt) { placeTxt = t; $('place').textContent = t; } }
 
 // ---------- 主角 ----------
@@ -3052,7 +3221,7 @@ function bearBag(g, col) { const hip = g.userData.hip, bm = qMat(col, { rough:0.
  [-1, 1].forEach(function (sd) { qBall(b, bm, sd * 0.034, 0.038, -0.004, 0.017, 0.017, 0.012, 12); qBall(b, pale, sd * 0.034, 0.038, 0.005, 0.009, 0.009, 0.005, 10); qBall(b, eye, sd * 0.016, 0.009, 0.031, 0.0055, 0.0065, 0.004, 8); });
  qBall(b, pale, 0, -0.012, 0.029, 0.018, 0.013, 0.008, 12); qBall(b, eye, 0, -0.007, 0.037, 0.006, 0.004, 0.003, 8); return g; }
 const PL = { x:0, z:0, y:0, vy:0, air:false, land:0, yaw:Math.PI, spd:0, dx:0, dz:-1, ci:0, root:null, piv:null, fig:null, S:1.95, AS:1.95 * 0.88, phase:0 }; const PIVK = 0.5;
-function makeHero(i) { const D = QDESIGNS[i].d, g = D.glb ? makeGlbHero(D) : D.ref ? makeRefHero(D) : qchar(D); if (D.bearBag) bearBag(g, D.bearBag); prepQ(g); if (g.userData.armK) g.userData.rig.armK = g.userData.armK; g.userData.hf = handFlower(g.userData.rig.fore[1], g.userData.handPos || [0, -0.115, 0.02]); g.userData.holdG = holdGroup(g.userData.rig.fore[1], g.userData.handPos || [0, -0.115, 0.02]); g.userData.noArm = null; PL.AS = PL.S * g.userData.hip / 0.38; return g; }
+function makeHero(i) { const D = QDESIGNS[i].d, g = D.glb ? makeGlbHero(D) : D.ref ? makeRefHero(D) : qchar(D); if (D.bearBag) bearBag(g, D.bearBag); prepQ(g); heroWet(g); if (g.userData.armK) g.userData.rig.armK = g.userData.armK; g.userData.hf = handFlower(g.userData.rig.fore[1], g.userData.handPos || [0, -0.115, 0.02]); g.userData.holdG = holdGroup(g.userData.rig.fore[1], g.userData.handPos || [0, -0.115, 0.02]); g.userData.noArm = null; PL.AS = PL.S * g.userData.hip / 0.38; return g; }
 function setHero(i) { const NQ = QDESIGNS.length; PL.ci = (i + NQ) % NQ; const hid = HOLD.id; putAway(); if (PL.fig && PL.fig.userData.wear) invAdd(PL.fig.userData.wear.id); if (PL.fig) { PL.piv.remove(PL.fig); PL.fig.traverse(function (n) { if (n.isMesh) { n.geometry.dispose(); const ms = Array.isArray(n.material) ? n.material : [n.material]; ms.forEach(function (m) { if (m.map) m.map.dispose(); m.dispose(); }); } }); }
  const f = makeHero(PL.ci); f.scale.setScalar(PL.S); f.position.y = -PIVK * PL.S; PL.fig = f; cloudPatchObj(f); PL.piv.add(f); $('sHero').textContent = QDESIGNS[PL.ci].nm; if (hid) holdItem(hid); }
 
@@ -3133,37 +3302,52 @@ function playerLookTarget(dt) { if (DLG.open && DLG.n) return headPos(DLG.n);
  if (PLK.mode === 'npc' && n) return headPos(n); if (PLK.mode === 'cam') return cam.position; return null; }
 
 // ---------- 輸入（原型：左邊拖動行、右邊拖動轉鏡頭、雙指縮放）----------
-const KEY = {}, JOY = { on:false, x:0, y:0, id:null, ox:0, oy:0 }, PTR = new Map(); let pinchD = 0;
-// 快跑：手機喺左邊連按兩下（第二下按住拖動）；電腦同一個方向鍵連按兩下（按住）。放手就停
+// JOY：觸控搖桿。tapT／tapX／tapY：上一下「輕按」；dbl：今下係連按兩下嘅第二下；pend：等緊睇係原地跳定向前跳（最多 0.09 秒）
+const KEY = {}, JOY = { on:false, x:0, y:0, id:null, ox:0, oy:0, sprint:false, tapT:-1e9, tapX:0, tapY:0, dbl:false, pend:false, pT:0, leapDone:false }, PTR = new Map(), MCLK = { t:-1e9, x:0, y:0 }; let pinchD = 0;
+// 快跑：手機連按兩下再推（向前跳之後按住繼續快跑）；電腦同一個方向鍵連按兩下（按住）。放手就停
 const SPR = { key:false, code:'', t:0 };
-function readInput() { let x = 0, y = 0, key = false; if (KEY.KeyA || KEY.ArrowLeft) x -= 1; if (KEY.KeyD || KEY.ArrowRight) x += 1; if (KEY.KeyW || KEY.ArrowUp) y += 1; if (KEY.KeyS || KEY.ArrowDown) y -= 1;
+function readInput() { if (JOY.pend && performance.now() - JOY.pT > 90) { JOY.pend = false; MV.jumpQ = true; }   /* 連按兩下之後冇推：原地跳 */
+ let x = 0, y = 0, key = false; if (KEY.KeyA || KEY.ArrowLeft) x -= 1; if (KEY.KeyD || KEY.ArrowRight) x += 1; if (KEY.KeyW || KEY.ArrowUp) y += 1; if (KEY.KeyS || KEY.ArrowDown) y -= 1;
  if (x || y) { key = true; const l = Math.hypot(x, y); x /= l; y /= l; } else if (JOY.on) { x = JOY.x; y = JOY.y; } else if (AUTO.on) { x = AUTO.x; y = AUTO.y; } if (SPR.key && !key) SPR.key = false; return { x:x, y:y, key:key, slow:!!(KEY.ShiftLeft || KEY.ShiftRight), sprint:key ? SPR.key : (JOY.on && !!JOY.sprint) }; }
 const AUTO = { on:false, x:0, y:0 };
 const INR = { on:false, yaw:0, a0:0 };
 function inputRef(mx, my) { if (Math.hypot(mx, my) < 0.2) { INR.on = false; return CAMS.yaw; } const a = Math.atan2(mx, my); if (!INR.on || Math.abs(angDiff(a, INR.a0)) > 0.9 || Math.abs(a) < 0.45) { INR.yaw = CAMS.yaw; INR.a0 = a; } INR.on = true; return INR.yaw; }
-function camDrag(dx, dy) { if (AIM.on) { aimDrag(dx, dy); return; } CAMS.yaw -= dx * 0.0068; INR.yaw -= dx * 0.0068; CAMS.pitch = Math.max(-0.12, Math.min(1.2, CAMS.pitch + dy * 0.0045)); CAMS.manualT = NOWT; }
+function camDrag(dx, dy) { if (AIM.on) return; CAMS.yaw -= dx * 0.0068; INR.yaw -= dx * 0.0068; CAMS.pitch = Math.max(-0.12, Math.min(1.2, CAMS.pitch + dy * 0.0045)); CAMS.manualT = NOWT; }
 function zoom(f) { CAMS.tdist = Math.max(4, Math.min(11, CAMS.tdist * f)); }   /* 只喺近鏡附近拉近拉遠 */
 function setupInput() { const cv = $('cv'), pad = $('pad'), knob = $('knob'), R = 58;
- // 觸控（2026-10-08 改）：單指喺畫面任何位置拖動＝行（推到盡跑、連按兩下快跑）；行緊時第二隻手指＝轉鏡頭；兩隻手指一齊落＝雙指轉鏡頭、開合拉近拉遠。滑鼠拖動＝轉鏡頭
- cv.addEventListener('pointerdown', function (e) { e.preventDefault(); try { cv.setPointerCapture(e.pointerId); } catch (_) {} let role = 'cam';
-  if (e.pointerType !== 'mouse' && JOY.on && !AIM.on) { const jp = PTR.get(JOY.id); if (jp && performance.now() - jp.t0 < 160 && Math.hypot(jp.x - jp.x0, jp.y - jp.y0) < 12) { jp.role = 'cam'; JOY.on = false; JOY.sprint = false; JOY.x = JOY.y = 0; pad.hidden = true; } }
-  if (e.pointerType !== 'mouse' && !JOY.on && !AIM.on && PTR.size === 0) { role = 'move'; JOY.on = true; JOY.sprint = performance.now() - (JOY.upT || -1e9) < 350; pad.classList.toggle('spr', JOY.sprint); JOY.id = e.pointerId; JOY.ox = e.clientX; JOY.oy = e.clientY; JOY.x = JOY.y = 0; pad.hidden = false; pad.style.left = e.clientX + 'px'; pad.style.top = e.clientY + 'px'; knob.style.transform = ''; }
-  PTR.set(e.pointerId, { role:role, x:e.clientX, y:e.clientY, x0:e.clientX, y0:e.clientY, t0:performance.now() }); pinchD = 0; });
+ // 觸控（2026-10-07 改）：單指喺畫面任何位置拖動＝行（推到盡＝跑）；連按兩下＝跳；連按兩下再推＝向前跳（按住繼續快跑）；水中連按兩下並按住＝潛水
+ // 行緊時第二隻手指＝轉鏡頭；兩隻手指一齊落＝雙指轉鏡頭、開合拉近拉遠。滑鼠拖動＝轉鏡頭、連按兩下＝跳。瞄準時：按住拖動＝移動準星，放手＝拋出
+ const joyOff = function () { if (JOY.dbl) MV.diveH = false; JOY.on = false; JOY.sprint = false; JOY.dbl = false; JOY.pend = false; JOY.x = JOY.y = 0; pad.hidden = true; };
+ cv.addEventListener('pointerdown', function (e) { e.preventDefault(); try { cv.setPointerCapture(e.pointerId); } catch (_) {} const now = performance.now(); let role = 'cam';
+  if (AIM.on) { role = AIM.ptr == null && !AIM.thrown ? 'aim' : 'none'; if (role === 'aim') aimPress(e.pointerId); PTR.set(e.pointerId, { role:role, x:e.clientX, y:e.clientY, x0:e.clientX, y0:e.clientY, t0:now }); return; }
+  if (e.pointerType !== 'mouse' && JOY.on) { const jp = PTR.get(JOY.id); if (jp && now - jp.t0 < 160 && Math.hypot(jp.x - jp.x0, jp.y - jp.y0) < 12) { jp.role = 'cam'; joyOff(); } }
+  if (e.pointerType !== 'mouse' && !JOY.on && PTR.size === 0) { role = 'move'; JOY.on = true; JOY.id = e.pointerId; JOY.ox = e.clientX; JOY.oy = e.clientY; JOY.x = JOY.y = 0; JOY.sprint = false; JOY.leapDone = false; JOY.pend = false;
+   JOY.dbl = now - JOY.tapT < 330 && Math.hypot(e.clientX - JOY.tapX, e.clientY - JOY.tapY) < 90; JOY.tapT = -1e9;
+   if (JOY.dbl) { if (MV.mode === 'land') { JOY.pend = true; JOY.pT = now; } else if (MV.mode === 'swim' || MV.mode === 'dive') MV.diveH = true; }   /* 陸地：等 0.09 秒睇推唔推；水中：按住＝潛水 */
+   pad.classList.remove('spr'); pad.hidden = false; pad.style.left = e.clientX + 'px'; pad.style.top = e.clientY + 'px'; knob.style.transform = ''; }
+  if (e.pointerType === 'mouse' && now - MCLK.t < 320 && Math.hypot(e.clientX - MCLK.x, e.clientY - MCLK.y) < 10) { MCLK.t = -1e9; if (MV.mode === 'land') MV.jumpQ = true; }   /* 滑鼠連按兩下＝跳 */
+  PTR.set(e.pointerId, { role:role, x:e.clientX, y:e.clientY, x0:e.clientX, y0:e.clientY, t0:now }); pinchD = 0; });
  cv.addEventListener('pointermove', function (e) { const p = PTR.get(e.pointerId); if (!p) return; e.preventDefault(); const dx = e.clientX - p.x, dy = e.clientY - p.y; p.x = e.clientX; p.y = e.clientY;
-  if (p.role === 'move') { let ux = e.clientX - JOY.ox, uy = e.clientY - JOY.oy; const l = Math.hypot(ux, uy); if (l > R) { ux *= R / l; uy *= R / l; } JOY.x = ux / R; JOY.y = -uy / R; knob.style.transform = 'translate(' + ux + 'px,' + uy + 'px)'; return; }
+  if (p.role === 'aim') { aimMove(dx, dy); return; } if (p.role === 'none') return;
+  if (p.role === 'move') { let ux = e.clientX - JOY.ox, uy = e.clientY - JOY.oy; const l = Math.hypot(ux, uy); if (l > R) { ux *= R / l; uy *= R / l; } JOY.x = ux / R; JOY.y = -uy / R; knob.style.transform = 'translate(' + ux + 'px,' + uy + 'px)';
+   if (JOY.dbl && !JOY.leapDone && l > 14 && MV.mode === 'land') { JOY.leapDone = true; if (JOY.pend || performance.now() - JOY.pT < 400) { if (JOY.pend) MV.leapQ = true; else MV.leapLate = true; JOY.pend = false; JOY.sprint = true; pad.classList.add('spr'); } }   /* 連按兩下再推＝向前跳，按住繼續快跑 */
+   return; }
   const cams = []; PTR.forEach(function (q) { if (q.role === 'cam') cams.push(q); }); if (cams.length >= 2) { const d = Math.hypot(cams[0].x - cams[1].x, cams[0].y - cams[1].y); if (pinchD) zoom(pinchD / d); pinchD = d; camDrag(dx * 0.5, dy * 0.5); } else camDrag(dx, dy); });
- function up(e) { const p = PTR.get(e.pointerId); if (!p) return; PTR.delete(e.pointerId); pinchD = 0; if (AIM.on && e.type === 'pointerup' && performance.now() - p.t0 < 260 && Math.hypot(e.clientX - p.x0, e.clientY - p.y0) < 12) aimThrow();   /* 瞄準時輕按畫面＝拋出 */ if (p.role === 'move') { JOY.on = false; JOY.sprint = false; JOY.upT = performance.now(); JOY.x = JOY.y = 0; pad.hidden = true; } }
+ function up(e) { const p = PTR.get(e.pointerId); if (!p) return; PTR.delete(e.pointerId); pinchD = 0; const now = performance.now();
+  if (p.role === 'aim') { aimRelease(e.type === 'pointerup'); return; }   /* 瞄準：放手＝拋出 */
+  if (p.role === 'move') { const tap = now - p.t0 < 240 && Math.hypot(e.clientX - p.x0, e.clientY - p.y0) < 14; if (JOY.pend) { JOY.pend = false; MV.jumpQ = true; } if (tap && !JOY.dbl) { JOY.tapT = now; JOY.tapX = e.clientX; JOY.tapY = e.clientY; } joyOff(); }
+  else if (p.role === 'cam' && e.pointerType === 'mouse' && now - p.t0 < 250 && Math.hypot(e.clientX - p.x0, e.clientY - p.y0) < 8) { MCLK.t = now; MCLK.x = e.clientX; MCLK.y = e.clientY; } }
  cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up); cv.addEventListener('lostpointercapture', up);
  cv.addEventListener('wheel', function (e) { e.preventDefault(); zoom(e.deltaY > 0 ? 1.1 : 1 / 1.1); }, { passive:false });
  addEventListener('keydown', function (e) { if (e.code === 'Tab' || e.code === 'Space' || e.code.indexOf('Arrow') === 0) e.preventDefault(); if (e.repeat) { KEY[e.code] = true; return; } KEY[e.code] = true;
   if (/^(Key[WASD]|Arrow)/.test(e.code)) { const now = performance.now(); if (e.code === SPR.code && now - SPR.t < 320) SPR.key = true; SPR.code = e.code; SPR.t = now; } if (!$('help').hidden) { if (e.code === 'Enter' || e.code === 'Space' || e.code === 'KeyE') startGame(); return; }
   if (AIM.on) { if (e.code === 'Space' || e.code === 'KeyE' || e.code === 'Enter') aimThrow(); else if (e.code === 'Escape') endAim(); return; }
   if (e.code === 'KeyB') { if (BAG.open) closeBag(); else openBag(); return; } if (BAG.open && e.code === 'Escape') { closeBag(); return; }
-  if (e.code === 'Space') { if (MV.mode === 'land') MV.jumpQ = true; else MV.diveH = true; } else if ((e.code === 'ShiftLeft' || e.code === 'ShiftRight') && MV.mode !== 'land') MV.riseH = true;
+  if (e.code === 'Space') { if (MV.mode === 'land') { if (PL.spd > 2.2) MV.leapQ = true; else MV.jumpQ = true; } else MV.diveH = true; } else if ((e.code === 'ShiftLeft' || e.code === 'ShiftRight') && MV.mode !== 'land') MV.riseH = true;
   if (e.code === 'KeyE' || e.code === 'Enter') action(); else if (e.code === 'KeyR') recenter(); else if (e.code === 'KeyC') setHero(PL.ci + 1); else if (e.code === 'KeyH') $('help').hidden = false; else if (e.code === 'KeyM') toggleMap(); else if (e.code === 'Escape' && !$('mapw').hidden) toggleMap(); });
  addEventListener('keyup', function (e) { KEY[e.code] = false; if (e.code === 'Space') MV.diveH = false; if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') MV.riseH = false; }); addEventListener('blur', function () { Object.keys(KEY).forEach(function (k) { KEY[k] = false; }); });
  function btn(id, fn) { $(id).addEventListener('pointerdown', function (e) { e.preventDefault(); e.stopPropagation(); fn(); }); $(id).addEventListener('keydown', function (e) { if (e.code === 'Enter' || e.code === 'Space') { e.preventDefault(); e.stopPropagation(); fn(); } }); }
- btn('bA', action); setupMoveButtons(); setupItemUI(); setupSettings(btn); btn('bHelp', function () { $('help').hidden = false; }); btn('bGo', startGame); btn('dlg', action); btn('bMap', toggleMap); btn('mapX', toggleMap);
+ btn('bA', action); setupItemUI(); setupSettings(btn); btn('bHelp', function () { $('help').hidden = false; }); btn('bGo', startGame); btn('dlg', action); btn('bMap', toggleMap); btn('mapX', toggleMap);
  addEventListener('resize', resize); document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
  let lastTE = 0; document.addEventListener('touchend', function (e) { const t = e.target; if (t && (t.closest && t.closest('button'))) return; const now = Date.now(); if (now - lastTE < 400) e.preventDefault(); lastTE = now; }, { passive:false }); }
 function startGame() { $('help').hidden = true; $('cv').focus({ preventScroll:true }); }
@@ -3174,7 +3358,7 @@ function npcDist(n) { return Math.hypot(n.root.position.x - PL.x, n.root.positio
 function nearNPC() { let best = null, bs = 1e9; curNPCs().forEach(function (n) { const dx = n.root.position.x - PL.x, dz = n.root.position.z - PL.z, d = Math.hypot(dx, dz); if (d > 3.0) return; const f = (dx * Math.sin(PL.yaw) + dz * Math.cos(PL.yaw)) / (d || 1); if (f < -0.25) return; const sc = d - f; if (sc < bs) { bs = sc; best = n; } }); return best; }
 function nearDoor() { if (AREA.id !== 'out') { const R = AREA.R, e = R.exit; return (Math.abs(PL.x - e.x) < 1.6 && PL.z > e.z - 1.6) ? 'exit' : null; }
  let best = null, bd = 2.6; Object.keys(WD.doors).forEach(function (k) { const d = WD.doors[k]; if (!d.room) return; const dist = Math.hypot(PL.x - d.x, PL.z - d.z); if (dist < bd) { bd = dist; best = k; } }); return best; }
-function action() { if (AREA.fading || PL.pick) return; if (DLG.open) { if (DLG.shown < DLG.full.length) { DLG.shown = DLG.full.length; $('dlgT').textContent = DLG.full; return; } DLG.i++; if (DLG.i >= DLG.n.lines.length) { closeDlg(); return; } setLine(); return; }
+function action() { if (AREA.fading || PL.pick || MV.mode === 'climb') return; if ((MV.mode === 'swim' || MV.mode === 'dive') && !DLG.open) { const L = nearLadder(); if (L) { startClimb(L); return; } } if (DLG.open) { if (DLG.shown < DLG.full.length) { DLG.shown = DLG.full.length; $('dlgT').textContent = DLG.full; return; } DLG.i++; if (DLG.i >= DLG.n.lines.length) { closeDlg(); return; } setLine(); return; }
  const n = nearNPC(); if (n) { DLG.open = true; DLG.n = n; DLG.i = 0; n.talking = true; $('dlgN').textContent = n.name; $('dlg').hidden = false; $('app').classList.add('talk'); setLine(); return; }
  const dk = nearDoor(); if (dk === 'exit') exitRoom(); else if (dk) enterRoom(dk); else { const pi = nearPick(); if (pi >= 0) { takePick(pi); return; } const fi = nearFlower(); if (fi >= 0) startPick(fi); } }
 function setLine() { DLG.full = DLG.n.lines[DLG.i]; DLG.shown = 0; $('dlgT').textContent = ''; const t = DLG.full, ex = /！|!/.test(t), q = /？|\?/.test(t), dots = /……/.test(t);
@@ -3226,24 +3410,27 @@ function doorAuto() { if (AREA.fading || DLG.open || PL.spd < 0.6) return;
  else { const e = AREA.R.exit; if (Math.abs(PL.x - e.x) < e.hw && PL.z > e.z - 0.3 && PL.dz > 0.45) exitRoom(); } }
 
 // ---------- 主角移動 ----------
-function updPlayer(dt) { const inp = readInput(); let mx = inp.x, my = inp.y; const locked = DLG.open || !$('help').hidden || AREA.fading || !$('mapw').hidden || !!PL.pick || BAG.open || AIM.on; if (locked) { mx = 0; my = 0; } const mag = Math.min(1, Math.hypot(mx, my));
+function updPlayer(dt) { const inp = readInput(); let mx = inp.x, my = inp.y; const locked = DLG.open || !$('help').hidden || AREA.fading || !$('mapw').hidden || !!PL.pick || BAG.open || AIM.on, busy = MV.mode === 'climb'; if (locked || busy) { mx = 0; my = 0; } const mag = Math.min(1, Math.hypot(mx, my)); MV.inp = mag > 0.15;
  const ry = inputRef(mx, my), fx = -Math.sin(ry), fz = -Math.cos(ry), rx = Math.cos(ry), rz = -Math.sin(ry); let wx = rx * mx + fx * my, wz = rz * mx + fz * my; const wl = Math.hypot(wx, wz); let tgt = 0;
- if (wl > 0.02) { wx /= wl; wz /= wl; const md = MV.mode, spr = inp.sprint && !STA.ex; MV.spr = spr;
-  let top = md === 'land' ? (STA.ex ? 2.4 : spr ? 7.2 : 4.6) : md === 'swim' ? (spr ? 4.2 : 2.3) : (spr ? 3.6 : 2.4); if (md === 'land' && MV.wade > 0.3) top *= 0.62;   /* 冇氣就行慢；淺水行慢啲 */
-  tgt = inp.key ? (inp.slow && md === 'land' ? 2.1 : top) : Math.max(md === 'land' ? 1.0 : 0.6, top * Math.min(1, (mag - 0.12) / 0.72)); PL.dx = wx; PL.dz = wz; } else MV.spr = false;
+ if (wl > 0.02) { wx /= wl; wz /= wl; const md = MV.mode, spr = inp.sprint && !STA.ex && !(md === 'land' && MV.wade > 0.5); MV.spr = spr;
+  let top = md === 'land' ? (STA.ex ? 2.4 : spr ? 7.2 : 4.6) : md === 'swim' ? (spr ? 4.2 : 2.3) : (spr ? 3.6 : 2.4);
+  if (md === 'land') { top *= 1 - 0.5 * sstep(0.08, 0.95, MV.wade); if (MV.exitT < 1.3) top *= 0.5 + 0.5 * MV.exitT / 1.3; }   /* 冇氣就行慢；水愈深行愈慢（腰深一半速）；啱啱上岸頭幾步重 */
+  tgt = inp.key ? (inp.slow && md === 'land' ? 2.1 : top) : Math.max(md === 'land' ? 1.0 : 0.6, top * Math.min(1, (mag - 0.12) / 0.72));
+  if (PL.air && md === 'land') { const k = 1 - Math.exp(-dt * 2.2); PL.dx += (wx - PL.dx) * k; PL.dz += (wz - PL.dz) * k; const l = Math.hypot(PL.dx, PL.dz) || 1; PL.dx /= l; PL.dz /= l; } else { PL.dx = wx; PL.dz = wz; } } else MV.spr = false;   /* 半空：方向慢慢轉，唔可以即刻掉頭 */
  if (PL.pick && PL.pick.walk) tgt = pickWalk(dt);
- PL.spd += (tgt - PL.spd) * (1 - Math.exp(-dt * (tgt > PL.spd ? 8 : 11))); PL.moveT = PL.spd > 0.5 ? (PL.moveT || 0) + dt : 0;
+ const air = PL.air && MV.mode === 'land', wat = MV.mode === 'swim' || MV.mode === 'dive'; PL.spd += (tgt - PL.spd) * (1 - Math.exp(-dt * (air ? (tgt > PL.spd ? 1.5 : 0.8) : wat ? (tgt > PL.spd ? 3.5 : MV.plunge > 0 ? 0.9 : 2.2) : tgt > PL.spd ? 8 : 11))); if (busy) PL.spd = 0; PL.moveT = PL.spd > 0.5 ? (PL.moveT || 0) + dt : 0;   /* 半空保持衝力；水中慢慢加速、停手會滑一段（跳水入水滑得更遠）*/
  const ox = PL.x, oz = PL.z; PL.x += PL.dx * PL.spd * dt; PL.z += PL.dz * PL.spd * dt;
  const ex = []; curNPCs().forEach(function (n) { ex.push({ x:n.root.position.x, z:n.root.position.z, r:0.36 * n.s }); }); resolve(PL, 0.45, ex);
  if (!walkable(PL.x, PL.z)) { if (walkable(PL.x, oz)) PL.z = oz; else if (walkable(ox, PL.z)) PL.x = ox; else { PL.x = ox; PL.z = oz; } }
  updMoveY(dt, locked);
  let yt = PL.yaw; if (DLG.open && DLG.n) yt = Math.atan2(DLG.n.root.position.x - PL.x, DLG.n.root.position.z - PL.z); else if (PL.spd > 0.3) yt = Math.atan2(PL.dx, PL.dz);
  PL.yaw = lerpAng(PL.yaw, yt, 1 - Math.exp(-dt * 12)); PL.root.position.set(PL.x, PL.y, PL.z); PL.root.rotation.y = PL.yaw;
- const U = PL.fig.userData.rig; const pz = MV.mode === 'land' ? animRig(U, PL, PL.spd, dt, PL.fig.userData.noArm, PL.AS, true, PL) : swimRig(U, dt); if (MV.mode === 'land' && PL.swTilt) PL.swTilt = Math.max(0, PL.swTilt - dt * 4); PL.piv.rotation.x = pz.lean + (MV.mode === 'land' ? PL.swTilt || 0 : 0); if (MV.mode === 'land') holdPose(U);
+ const U = PL.fig.userData.rig; const pz = heroPose(U, dt); PL.piv.rotation.x = pz.lean; if (MV.mode === 'land' && MV.sw < 0.5 && !(PL.air && (MV.leap || MV.diveJ))) holdPose(U);   /* 陸地↔游水姿勢慢慢過渡（play.js）*/
  const G = PL.gest; if (G && U.arms.length === 2) { G.t += dt; const k = Math.min(1, G.t / 0.2, (G.d - G.t) / 0.25); if (G.t >= G.d) PL.gest = null; else if (k > 0) { const w = Math.sin(G.t * 13); if (G.k === 'wave') { U.arms[0].rotation.z += (-2.5 + w * 0.25 - U.arms[0].rotation.z) * k; U.arms[0].rotation.x += (-0.25 - U.arms[0].rotation.x) * k; if (U.fore[0]) U.fore[0].rotation.x += (-0.5 - U.fore[0].rotation.x) * k; }
   else { const b = Math.abs(Math.sin(G.t * 9)) * 0.15; U.arms[0].rotation.z += (-2.6 + b - U.arms[0].rotation.z) * k; U.arms[1].rotation.z += (2.6 - b - U.arms[1].rotation.z) * k; U.arms.forEach(function (a) { a.rotation.x += (-0.15 - a.rotation.x) * k; }); pz.bounce += Math.abs(Math.sin(G.t * 9)) * 0.05 * k; } } }
- const PF = PL.fig.userData.face; faceLook(PL.fig, U, PF, PLK, playerLookTarget(dt), dt); if (PF) { const nn = !DLG.open && nearNPC(); qFaceSet(PF, DLG.open ? (PL.expr || 'happy') : PL.spd > 3.3 ? 'run' : nn ? 'happy' : 'neutral'); qFaceUpdate(PF, dt); }
- if (PL.fig.userData.tick) PL.fig.userData.tick(dt, { talk:false, happy:DLG.open || (PL.spd < 0.3 && !!nearNPC()) || !!(PL.pick && PL.pick.t > 1.0), laugh:(PL.gest && PL.gest.k !== 'wave') || !!(PL.pick && PL.pick.t > 1.2 && PL.pick.t < 3.2), surprise:DLG.open && PL.expr === 'surprise' });
+ const PF = PL.fig.userData.face; faceLook(PL.fig, U, PF, PLK, playerLookTarget(dt), dt); if (PF) { const nn = !DLG.open && nearNPC(); qFaceSet(PF, DLG.open ? (PL.expr || 'happy') : MV.gasp > 0.6 ? 'surprise' : PL.spd > 3.3 ? 'run' : nn ? 'happy' : 'neutral'); qFaceUpdate(PF, dt); }
+ if (MV.gasp > 0 && MV.gasp < 0.75 && U.head) U.head.rotation.y += Math.sin(MV.gasp * 21) * 0.3 * Math.min(1, MV.gasp / 0.3);   /* 浮出水面：吸一啖氣，然後搖頭甩水 */
+ if (PL.fig.userData.tick) PL.fig.userData.tick(dt, { talk:false, happy:DLG.open || (PL.spd < 0.3 && !!nearNPC()) || !!(PL.pick && PL.pick.t > 1.0), laugh:(PL.gest && PL.gest.k !== 'wave') || !!(PL.pick && PL.pick.t > 1.2 && PL.pick.t < 3.2), surprise:(DLG.open && PL.expr === 'surprise') || MV.gasp > 0.6 });
  if (U.head) { PL.nod = Math.max(0, (PL.nod || 0) - dt); U.head.rotation.x += Math.sin(Math.min(1, (0.4 - PL.nod) / 0.4) * Math.PI) * 0.12 * (PL.nod > 0 ? 1 : 0); U.head.rotation.z += ((DLG.open ? 0.07 * Math.sin(NOWT * 1.3) + 0.04 : 0) - U.head.rotation.z) * 0.1; }
  PL.fig.position.y = -PIVK * PL.S - pz.drop + pz.bounce; updPick(dt, U); if (Math.floor(NOWT) !== Math.floor(NOWT - dt)) regrowFlowers(); if (U.head && PL.spd < 0.3) U.head.rotation.x += (Math.sin(NOWT * 1.4) * 0.025 - U.head.rotation.x) * 0.1;
  if (PL.fig.userData.hairTick) PL.fig.userData.hairTick(dt);
@@ -3252,7 +3439,7 @@ function updPlayer(dt) { const inp = readInput(); let mx = inp.x, my = inp.y; co
 // ---------- 鏡頭：跟喺後面、自動轉返後面、撞牆拉近（原型）----------
 const CAMP = { d:7.8, p:0.24 };
 const CAMS = { yaw:0, pitch:0.24, tdist:7.8, cur:7.8, d2:null, manualT:-9, recenter:0, look:new T.Vector3(), init:false };
-function updCam(dt) { if (AIM.on) { aimCam(); return; } PL.cy = PL.cy == null ? PL.y : PL.cy + (PL.y - PL.cy) * (1 - Math.exp(-dt * 8)); const tx = PL.x, ty = PL.cy + 1.2, tz = PL.z; const lk = Math.min(1, PL.spd / 4.6) * 1.4; CAMS.lx = (CAMS.lx || 0) + (PL.dx * lk - (CAMS.lx || 0)) * (1 - Math.exp(-dt * 3)); CAMS.lz = (CAMS.lz || 0) + (PL.dz * lk - (CAMS.lz || 0)) * (1 - Math.exp(-dt * 3));
+function updCam(dt) { if (AIM.on) { aimCam(dt); return; } PL.cy = PL.cy == null ? PL.y : PL.cy + (PL.y - PL.cy) * (1 - Math.exp(-dt * 8)); const tx = PL.x, ty = MV.mode === 'swim' ? Math.max(PL.cy + 1.2, SEA_Y + 0.15) : PL.cy + 1.2, tz = PL.z;   /* 踩水時身低咗：鏡頭仍然對住水面上個頭 */ const lk = Math.min(1, PL.spd / 4.6) * 1.4; CAMS.lx = (CAMS.lx || 0) + (PL.dx * lk - (CAMS.lx || 0)) * (1 - Math.exp(-dt * 3)); CAMS.lz = (CAMS.lz || 0) + (PL.dz * lk - (CAMS.lz || 0)) * (1 - Math.exp(-dt * 3));
  const fo2 = DLG.open && DLG.n; if (fo2) { const n = fo2.root.position, base = Math.atan2(PL.x - n.x, PL.z - n.z); CAMS.yaw = lerpAng(CAMS.yaw, base + 1.3, 1 - Math.exp(-dt * 3.5)); }
  else if (CAMS.recenter > 0) { CAMS.recenter -= dt; CAMS.yaw = lerpAng(CAMS.yaw, PL.yaw + Math.PI, 1 - Math.exp(-dt * 11)); }
  else if (PL.spd > 0.6 && NOWT - CAMS.manualT > 1.0 && !DLG.open) { const d = angDiff(PL.yaw + Math.PI, CAMS.yaw), k = Math.min(1, PL.spd / 3.5) * Math.min(1, PL.moveT / 0.35), w = Math.min(2.4, 0.35 + Math.abs(d) * 1.6) * k; CAMS.yaw += Math.sign(d) * Math.min(Math.abs(d), w * dt); }
@@ -3278,7 +3465,7 @@ function updHUD(dt) { const W = innerWidth, H = innerHeight, npcs = curNPCs();
  Object.keys(WD.doors).forEach(function (k) { const d = WD.doors[k]; let el = DOORB[k]; if (!el) { el = DOORB[k] = document.createElement('div'); el.className = 'bub door'; el.textContent = d.name + (d.room ? '　入口' : ''); el.hidden = true; $('bubs').appendChild(el); }
   let vis = false; if (AREA.id === 'out' && !DLG.open) { const dist = Math.hypot(PL.x - d.x, PL.z - d.z); if (dist < 13 && dist > 1.2) { V.set(d.x, terrH(d.x, d.z) + (d.room ? 3.4 : 2.6), d.z).project(cam); vis = V.z < 1 && Math.abs(V.x) < 1.0 && V.y < 1.0 && V.y > -1; if (vis) { el.style.transform = 'translate(' + ((V.x + 1) / 2 * W).toFixed(1) + 'px,' + ((1 - V.y) / 2 * H).toFixed(1) + 'px) translate(-50%,-100%)'; el.style.opacity = Math.min(1, (13 - dist) / 3).toFixed(2); } } }
   if (el.hidden === vis) el.hidden = !vis; });
- const nn = nearNPC(), dk = !nn && nearDoor(), np = !nn && !dk && !DLG.open ? nearPick() : -1, nf = !nn && !dk && np < 0 && !DLG.open ? nearFlower() : -1, can = DLG.open || !!nn || !!dk || np >= 0 || nf >= 0, lbl = DLG.open ? '繼續' : nn ? '對話' : dk === 'exit' ? '離開' : dk ? '進入' : np >= 0 ? '撿起' : nf >= 0 ? '採花' : '對話';
+ const nl = !DLG.open && (MV.mode === 'swim' || MV.mode === 'dive') ? nearLadder() : null, nn = nearNPC(), dk = !nn && nearDoor(), np = !nn && !dk && !DLG.open ? nearPick() : -1, nf = !nn && !dk && np < 0 && !DLG.open ? nearFlower() : -1, can = DLG.open || !!nl || !!nn || !!dk || np >= 0 || nf >= 0, lbl = DLG.open ? '繼續' : nl ? '攀上' : nn ? '對話' : dk === 'exit' ? '離開' : dk ? '進入' : np >= 0 ? '撿起' : nf >= 0 ? '採花' : '對話';
  if ($('aLbl').textContent !== lbl) $('aLbl').textContent = lbl; const bA = $('bA'); if (bA.classList.contains('off') === can) bA.classList.toggle('off', !can);
  if (DLG.open && DLG.shown < DLG.full.length) { DLG.shown = Math.min(DLG.full.length, DLG.shown + dt * 32); $('dlgT').textContent = DLG.full.slice(0, Math.floor(DLG.shown)); }
  if (toastT > 0) { toastT -= dt; if (toastT <= 0) $('toast').hidden = true; }
@@ -3318,7 +3505,7 @@ function drawMap() { const c = $('mapc'), x = c.getContext('2d'), S = c.width, R
 // ---------- 主迴圈、畫質自動調整 ----------
 let last = 0, fN = 0, fT = 0, qStep = 0, qSec = 0;
 function resize() { const W = innerWidth, H = innerHeight; rd.setSize(W, H, false); cam.aspect = W / H; cam.fov = W < H ? 66 : 52; cam.updateProjectionMatrix(); }
-function frame(dt) { NOWT += dt; updPlayer(dt); curNPCs().forEach(function (n) { updNPC(n, dt); }); updEnv(dt); updCam(dt); occUpdate(dt); updSun(); if (AREA.id === 'out') updGrassField(); updAnims(dt); if (AREA.id !== 'out') roomCull(AREA.R, cam); updHUD(dt); updMini(); updItems(dt); updSea(dt); updWaterFx(dt); updStaUI(dt); updMoveButtons(); if (AREA.id === 'out') envUnderFog(updUnder()); else POST.under = 0; if (!$('mapw').hidden && Math.floor(NOWT * 10) % 3 === 0) drawMap(); postRender(curScene(), cam); }
+function frame(dt) { NOWT += dt; updPlayer(dt); curNPCs().forEach(function (n) { updNPC(n, dt); }); updEnv(dt); updCam(dt); occUpdate(dt); updSun(); if (AREA.id === 'out') updGrassField(); updAnims(dt); if (AREA.id !== 'out') roomCull(AREA.R, cam); updHUD(dt); updMini(); updItems(dt); updSea(dt); updWaterFx(dt); updStaUI(dt); if (AREA.id === 'out') envUnderFog(updUnder()); else POST.under = 0; if (!$('mapw').hidden && Math.floor(NOWT * 10) % 3 === 0) drawMap(); postRender(curScene(), cam); }
 // 水底霧：潛水時鏡頭入咗水先轉（淺藍綠、近）；上返水面還原
 const ENVF = { color:new T.Color(0xb7c6d0), near:26, far:210, clear:new T.Color(0xc8cbc4) };
 function envUnderFog(under) { const F = OUT.sc.fog; if (under) { F.color.copy(UWC.fog); F.near = 0.5; F.far = 24; rd.setClearColor(UWC.clear); } else { F.color.copy(ENVF.color); F.near = ENVF.near; F.far = ENVF.far; rd.setClearColor(ENVF.clear); } }
