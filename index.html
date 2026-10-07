@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="tprpg-build" content="2610072220">
+<meta name="tprpg-build" content="261007223103">
 <title>旅遊星球RPG</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,10 +39,9 @@ button{font-family:var(--f-ui);touch-action:manipulation}
 .rb.big b{font:900 34px/1 var(--f-disp)}
 .rb.big span{font:800 13px/1 var(--f-ui)}
 .rb:active{transform:scale(.94)}
-/* 搖桿：虛線內圈＝行，推出內圈＝跑（金色），向前跳之後按住＝快跑（橙色） */
-#pad{position:absolute;width:144px;height:144px;margin:-72px 0 0 -72px;border-radius:50%;border:3px solid rgba(251,241,218,.75);background:rgba(251,241,218,.14);pointer-events:none;z-index:4}
-#pad::before{content:"";position:absolute;left:50%;top:50%;width:70px;height:70px;margin:-35px 0 0 -35px;border-radius:50%;border:2px dashed rgba(251,241,218,.6);box-sizing:border-box}
-#pad.run{border-color:rgba(255,222,130,.95);background:rgba(255,206,100,.18)}#pad.run #knob{background:radial-gradient(circle at 38% 32%,#fffaf0,#ffd56a)}
+/* 控制杆：黃圈入面＝步行，手指推出黃圈＝跑步（變橙色、用體力），冇力（紅色） */
+#pad{position:absolute;width:144px;height:144px;margin:-72px 0 0 -72px;border-radius:50%;border:3px solid rgba(255,218,104,.88);background:rgba(255,236,170,.13);pointer-events:none;z-index:4}
+#pad.run{border-color:rgba(255,150,40,.98);background:rgba(255,150,40,.18);box-shadow:0 0 12px rgba(255,150,40,.55)}#pad.run #knob{background:radial-gradient(circle at 38% 32%,#fff3d6,#f59a32)}
 #pad.tired{border-color:rgba(232,96,80,.95);background:rgba(220,80,60,.16)}#pad.tired #knob{background:radial-gradient(circle at 38% 32%,#fff0ec,#e8806a)}
 #pad.spr{border-color:rgba(255,186,84,.95);background:rgba(255,160,50,.22)}#pad.spr #knob{background:radial-gradient(circle at 38% 32%,#fff3d6,#f0a43a)}
 #knob{position:absolute;left:50%;top:50%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;background:radial-gradient(circle at 38% 32%,#ffffff,var(--parch2));box-shadow:0 3px 8px var(--shade)}
@@ -114,11 +113,10 @@ button{font-family:var(--f-ui);touch-action:manipulation}
 #help .sub{margin:0 0 14px;font-size:14px;line-height:1.5;color:var(--wood)}
 #help .tip{margin:0 0 16px;font:700 13px/1.5 var(--f-ui);color:var(--ink)}
 #help .go{width:100%;font:900 17px/1 var(--f-disp);padding:14px;border-radius:999px;border:3px solid var(--goldline);background:radial-gradient(circle at 38% 32%,var(--gold2),var(--gold));color:#4a300c;cursor:pointer;letter-spacing:.1em}
-#help .ver{margin:12px 0 0;text-align:center;font:700 12px/1 var(--f-ui);color:var(--wood)}
+#help .ver{margin:12px 0 0;text-align:center;font:600 11px/1 var(--f-ui);color:#9a8c7a;letter-spacing:.04em;font-variant-numeric:tabular-nums}   /* 封面版本：細灰字 */
 #load{position:absolute;inset:0;display:grid;place-items:center;background:var(--bg);color:var(--parch);font:900 18px/1.4 var(--f-disp);z-index:8;letter-spacing:.08em;text-align:center;padding:16px}
 #toast{position:absolute;left:50%;top:calc(env(safe-area-inset-top,0px) + 66px);transform:translateX(-50%);background:var(--night);color:var(--parch);padding:8px 14px;border-radius:999px;font:700 14px/1.2 var(--f-ui);z-index:5;pointer-events:none;white-space:nowrap}
-/* 版本（左下角細灰字，例如「20261007 21:42 v0.2」）*/
-#verTag{position:absolute;left:calc(env(safe-area-inset-left,0px) + 14px);bottom:calc(env(safe-area-inset-bottom,0px) + 2px);font:600 10px/1 var(--f-ui);color:rgba(214,208,196,.6);text-shadow:0 1px 2px rgba(0,0,0,.4);letter-spacing:.03em;z-index:3;pointer-events:none;font-variant-numeric:tabular-nums}
+
 @media (max-height:520px){.rb.big{width:76px;height:76px}.rb.sm{width:52px;height:52px}#mapc{width:min(70vmin,560px);height:min(70vmin,560px)}}
 @media (prefers-reduced-motion:reduce){#dlgM{animation:none}#fade{transition:none}}
 </style>
@@ -144,7 +142,7 @@ button{font-family:var(--f-ui);touch-action:manipulation}
  <div id="setw" hidden><div class="card"><div class="shead"><div id="setT">設定</div><button id="setX" class="chip" type="button">關閉</button></div>
   <div class="srow"><span class="sl">小地圖</span><div class="sctl"><button id="sMiniOn" class="chip seg" type="button">顯示</button><button id="sMiniOff" class="chip seg" type="button">不顯示</button></div></div>
   <div class="srow"><span class="sl">控制杆</span><div class="sctl"><button id="sPadOn" class="chip seg" type="button">顯示</button><button id="sPadOff" class="chip seg" type="button">不顯示</button></div></div>
-  <div id="howto"><div class="hT">操作說明</div><dl><dt>手機</dt><dd>單指在畫面任何位置拖動：輕輕推（虛線圈內）＝步行，推出虛線圈＝跑步（用體力，控制杆變金色）；連按兩下＝跳；連按兩下再推前＝向前跳；行走時用另一隻手指拖動，或雙指拖動＝轉動鏡頭；雙指開合＝拉近拉遠</dd>
+  <div id="howto"><div class="hT">操作說明</div><dl><dt>手機</dt><dd>單指在畫面任何位置拖動：控制杆黃圈內＝步行，推出黃圈＝跑步（用體力，控制杆變橙色）；連按兩下＝跳；連按兩下再推前＝向前跳；行走時用另一隻手指拖動，或雙指拖動＝轉動鏡頭；雙指開合＝拉近拉遠</dd>
    <dt>電腦</dt><dd><span class="k">W A S D</span>／方向鍵＝跑步（用體力）；按住 <span class="k">Shift</span>＝步行；<span class="k">空白鍵</span>＝跳（跑步時＝向前跳）；滑鼠拖動＝轉動鏡頭；滾輪＝拉近拉遠</dd>
    <dt>游泳</dt><dd>走進深水便會游泳，停下時踩水；連按兩下並按住＝潛水，放手便慢慢浮上水面<span class="nw">（電腦：按住空白鍵潛水、<span class="k">Shift</span> 上浮）</span>；在碼頭向前跳可跳水；碼頭盡頭有梯，游過去便可爬上岸</dd>
    <dt>體力</dt><dd>跑步、快速游泳和潛水會消耗體力（主角旁的綠色圓圈）；用盡時圓圈和控制杆變紅，只能慢慢走，須等體力回滿才能再跑</dd>
@@ -154,7 +152,7 @@ button{font-family:var(--f-ui);touch-action:manipulation}
    <dt>背包</dt><dd>右上角「背包」：選一件物品拿在手上，再在六角形選單選「拋」「給」「用」，中間＝收起；拋的時候轉成第一人稱視角，按住畫面拖動準星，放手便拋出<span class="nw">（電腦 <span class="k">B</span>）</span></dd>
    <dt>鏡頭</dt><dd>近距離跟在主角後方；電腦按 <span class="k">R</span> 鏡頭轉回主角後方</dd></dl></div></div></div>
  <div id="fade"></div>
- <div id="toast" hidden></div><div id="verTag"></div>
+ <div id="toast" hidden></div>
  <div id="help"><div class="card"><h1>旅遊星球RPG</h1><p class="sub">原始場景：沿用新．旅遊星球的島嶼、建築和地形，以 three.js 重新製作成第三人稱世界。四處走走、進屋參觀，與外星居民聊天。整個星球只有你是人類。</p>
   <p class="tip">操作說明在右上角「設定」內。</p>
   <button id="bGo" class="go" type="button">開始</button><p class="ver" id="ver"></p></div></div>
@@ -3170,7 +3168,7 @@ const INR = { on:false, yaw:0, a0:0 };
 function inputRef(mx, my) { if (Math.hypot(mx, my) < 0.2) { INR.on = false; return CAMS.yaw; } const a = Math.atan2(mx, my); if (!INR.on || Math.abs(angDiff(a, INR.a0)) > 0.9 || Math.abs(a) < 0.45) { INR.yaw = CAMS.yaw; INR.a0 = a; } INR.on = true; return INR.yaw; }
 function camDrag(dx, dy) { if (AIM.on) return; CAMS.yaw -= dx * 0.0068; INR.yaw -= dx * 0.0068; CAMS.pitch = Math.max(-0.12, Math.min(1.2, CAMS.pitch + dy * 0.0045)); CAMS.manualT = NOWT; }
 function zoom(f) { CAMS.tdist = Math.max(4, Math.min(11, CAMS.tdist * f)); }   /* 只喺近鏡附近拉近拉遠 */
-function setupInput() { const cv = $('cv'), pad = $('pad'), knob = $('knob'), R = 66;   // 搖桿（2026-10-07 用戶：輕輕推＝行，推得好前＝跑）：推出虛線圈（0.58，約 38 px）＝跑，退返 0.48 以下先變返行（2026-10-07 夜：之前 0.76，太遠，好似冇咗跑）
+function setupInput() { const cv = $('cv'), pad = $('pad'), knob = $('knob'), R = 72;   // 控制杆（2026-10-07 夜用戶用手機試完定）：黃圈（半徑 72 px）入面＝步行，手指推出黃圈＝跑步；退返 64 px 以內先變返行（緩衝）
  // 觸控（2026-10-07 改）：單指喺畫面任何位置拖動＝行（推到盡＝跑）；連按兩下＝跳；連按兩下再推＝向前跳（按住繼續快跑）；水中連按兩下並按住＝潛水
  // 行緊時第二隻手指＝轉鏡頭；兩隻手指一齊落＝雙指轉鏡頭、開合拉近拉遠。滑鼠拖動＝轉鏡頭、連按兩下＝跳。瞄準時：按住拖動＝移動準星，放手＝拋出
  // 輕按（唔拖）：居民＝對話、地上物品＝撿起、花＝採花（太遠會自動行埋去）；傾緊偈按畫面＝下一句（暫時冇 A 掣，見 tapAt）
@@ -3188,7 +3186,7 @@ function setupInput() { const cv = $('cv'), pad = $('pad'), knob = $('knob'), R 
  cv.addEventListener('pointermove', function (e) { const p = PTR.get(e.pointerId); if (!p) return; e.preventDefault(); const dx = e.clientX - p.x, dy = e.clientY - p.y; p.x = e.clientX; p.y = e.clientY;
   if (p.role === 'aim') { aimMove(dx, dy); return; } if (p.role === 'none' || p.role === 'tap') return;
   if (p.role === 'move') { let ux = e.clientX - JOY.ox, uy = e.clientY - JOY.oy; const l = Math.hypot(ux, uy); if (l > R) { ux *= R / l; uy *= R / l; } JOY.x = ux / R; JOY.y = -uy / R; knob.style.transform = 'translate(' + ux + 'px,' + uy + 'px)';
-   const k = Math.min(1, l / R), rn = JOY.run ? k > 0.45 : k > 0.55; if (rn !== JOY.run) { JOY.run = rn; pad.classList.toggle('run', rn); }   /* 行／跑：有緩衝，唔會喺邊界閃 */
+   const rn = JOY.run ? l > 64 : l > 72; if (rn !== JOY.run) { JOY.run = rn; pad.classList.toggle('run', rn); }   /* 推出黃圈＝跑；有緩衝，唔會喺邊界閃 */
    if (JOY.dbl && !JOY.leapDone && l > 14 && MV.mode === 'land') { JOY.leapDone = true; if (JOY.pend || performance.now() - JOY.pT < 400) { if (JOY.pend) MV.leapQ = true; else MV.leapLate = true; JOY.pend = false; } }   /* 連按兩下再推＝向前跳（之後推出虛線圈就跑） */
    return; }
   const cams = []; PTR.forEach(function (q) { if (q.role === 'cam') cams.push(q); }); if (cams.length >= 2) { const d = Math.hypot(cams[0].x - cams[1].x, cams[0].y - cams[1].y); if (pinchD) zoom(pinchD / d); pinchD = d; camDrag(dx * 0.5, dy * 0.5); } else camDrag(dx, dy); });
@@ -3298,7 +3296,7 @@ function updPlayer(dt) { const inp = readInput(); let mx = inp.x, my = inp.y; co
   let top = md === 'land' ? (spr ? 6.2 : want ? 2.6 : 1.9) : md === 'swim' ? (spr ? 3.4 : want ? 1.3 : 1.6) : (spr ? 3.0 : 1.8);   /* 跑（用體力）／冇力（慢）／行 */
   if (md === 'land') { top *= 1 - 0.5 * sstep(0.08, 0.95, MV.wade); if (MV.exitT < 1.3) top *= 0.5 + 0.5 * MV.exitT / 1.3; }   /* 冇氣就行慢；水愈深行愈慢（腰深一半速）；啱啱上岸頭幾步重 */
   if (inp.key) tgt = top;
-  else if (JOY.on) tgt = want || md !== 'land' ? top : Math.min(1.9, 1.2 + Math.max(0, mag - 0.12) * 3);   /* 觸控：虛線圈內＝行（約 1.9），推出圈＝跑（6.2，用體力） */
+  else if (JOY.on) tgt = want || md !== 'land' ? top : 1.2 + 0.8 * Math.min(1, Math.max(0, (mag - 0.1) / 0.8));   /* 觸控：黃圈入面＝行（推得愈遠行得愈快，1.2–2.0），推出黃圈＝跑（6.2，用體力） */
   else tgt = Math.max(md === 'land' ? 1.0 : 0.6, top * Math.min(1, (mag - 0.12) / 0.72));
   if (PL.air && md === 'land') { const k = 1 - Math.exp(-dt * 2.2); PL.dx += (wx - PL.dx) * k; PL.dz += (wz - PL.dz) * k; const l = Math.hypot(PL.dx, PL.dz) || 1; PL.dx /= l; PL.dz /= l; } else { PL.dx = wx; PL.dz = wz; } } else MV.spr = false;   /* 半空：方向慢慢轉，唔可以即刻掉頭 */
  if (GOTO.on) { if (locked || busy || wl > 0.02 || MV.mode !== 'land') GOTO.on = false;   /* 自己郁、傾偈、落水：取消自動行 */
@@ -3422,7 +3420,7 @@ function boot() { const GL2 = (function () { try { return !!document.createEleme
  npcDefsOut().forEach(function (d) { OUT.npcs.push(makeNPC(d, OUT.sc)); }); cloudPatchScene(OUT.sc);
  setupInput(); placePlayer(WD.spawn[0], WD.spawn[1], WD.spawn[2]); updSun();
  // 預先編譯所有 shader（連透視用嘅 ghost 材質、影子嘅 depth 材質：影子鏡頭暫時開到成個島畫一格），之後第一次見到唔會頓
- $('ver').textContent = 'v0.2'; $('verTag').textContent = (function (b) { return '20' + b.slice(0, 6) + ' ' + b.slice(6, 8) + ':' + b.slice(8, 10) + ' ' + 'v0.2'; })('2610072220');   /* 例如「20261007 21:42 v0.2」 */ OCC.sets.forEach(function (S) { S.gh.visible = true; }); rd.compile(OUT.sc, cam); const scm = sun.shadow.camera; scm.left = scm.bottom = -150; scm.right = scm.top = 150; scm.far = 400; scm.updateProjectionMatrix(); sun.position.set(SUND.x * 180, SUND.y * 180, SUND.z * 180); sun.target.position.set(0, 0, 0); sun.target.updateMatrixWorld(); rd.render(OUT.sc, cam);
+ $('ver').textContent = 'ver 261007223103';   /* 封面先有版本（2026-10-07 夜用戶：遊戲入面唔使）；格式見 build.py */ OCC.sets.forEach(function (S) { S.gh.visible = true; }); rd.compile(OUT.sc, cam); const scm = sun.shadow.camera; scm.left = scm.bottom = -150; scm.right = scm.top = 150; scm.far = 400; scm.updateProjectionMatrix(); sun.position.set(SUND.x * 180, SUND.y * 180, SUND.z * 180); sun.target.position.set(0, 0, 0); sun.target.updateMatrixWorld(); rd.render(OUT.sc, cam);
  scm.left = scm.bottom = -QL.ext; scm.right = scm.top = QL.ext; scm.far = 160; scm.updateProjectionMatrix(); OCC.sets.forEach(function (S) { S.gh.visible = false; }); updSun(); const pre = Object.keys(ROOM_BUILD); (function next() { const id = pre.shift(); if (!id) return; setTimeout(function () { try { if (!ROOMS[id]) { const R = getRoom(id); rd.compile(R.sc, cam); } } catch (e) { console.warn('預砌室內失敗', id, e); } next(); }, 900); })(); $('load').hidden = true; warmUntil = performance.now() + 12000; requestAnimationFrame(loop); window.__ready = true; }
 window.addEventListener('load', function () { setTimeout(function () { try { boot(); } catch (e) { $('load').textContent = '載入失敗：' + e.message; console.error(e); } }, 30); });
 
